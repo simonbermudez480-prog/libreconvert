@@ -20,17 +20,17 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Programmatic SEO & Web Performance
 
-- [ ] **SEO-01**: Arquitectura estática (Next.js SSG) con rutas indexables para cada par de conversión (`/convertir/pdf-a-word`, `/convertir/word-a-pdf`, `/convertir/pdf-a-jpg`, etc.).
-- [ ] **SEO-02**: Metadatos dinámicos únicos (Title, Meta Description, Canonical URLs, OpenGraph, Twitter Cards) por cada par de conversión optimizados para CTR.
-- [ ] **SEO-03**: Marcado Schema.org enriquecido (`SoftwareApplication`, `HowTo` con pasos paso a paso, `BreadcrumbList` y `FAQPage`).
-- [ ] **SEO-04**: Sitemap XML dinámico (`/sitemap.xml`) y directivas de rastreo (`robots.txt`) que priorizan las rutas de conversión clave.
+- [x] **SEO-01**: Arquitectura estática (Next.js SSG) con rutas indexables para cada par de conversión (`/convertir/pdf-a-word`, `/convertir/word-a-pdf`, `/convertir/pdf-a-jpg`, etc.).
+- [x] **SEO-02**: Metadatos dinámicos únicos (Title, Meta Description, Canonical URLs, OpenGraph, Twitter Cards) por cada par de conversión optimizados para CTR.
+- [x] **SEO-03**: Marcado Schema.org enriquecido (`SoftwareApplication`, `HowTo` con pasos paso a paso, `BreadcrumbList` y `FAQPage`).
+- [x] **SEO-04**: Sitemap XML dinámico (`/sitemap.xml`) y directivas de rastreo (`robots.txt`) que priorizan las rutas de conversión clave.
 - [ ] **SEO-05**: Optimización extrema de Core Web Vitals (LCP < 1.2s, CLS = 0, INP < 100ms) con zero-JS payload innecesario en la carga inicial.
 
 ### GEO (Generative Engine Optimization) & Localización
 
-- [ ] **GEO-01**: Estructura de contenido semántico pensada para motores de respuesta IA (ChatGPT Search, Perplexity, Google SGE, Copilot) con definiciones concisas, bloques de respuesta directa y preguntas frecuentes (FAQs) con lenguaje natural.
-- [ ] **GEO-02**: Adaptación geográfica y cultural para el mercado hispanohablante (España, México, Colombia, Argentina, etc.) con términos de búsqueda locales.
-- [ ] **GEO-03**: Soporte de etiquetas `hreflang` y preparación para futura expansión multilingüe (inglés, portugués, francés).
+- [x] **GEO-01**: Estructura de contenido semántico pensada para motores de respuesta IA (ChatGPT Search, Perplexity, Google SGE, Copilot) con definiciones concisas, bloques de respuesta directa y preguntas frecuentes (FAQs) con lenguaje natural.
+- [x] **GEO-02**: Adaptación geográfica y cultural para el mercado hispanohablante (España, México, Colombia, Argentina, etc.) con términos de búsqueda locales.
+- [x] **GEO-03**: Soporte de etiquetas `hreflang` y preparación para futura expansión multilingüe (inglés, portugués, francés).
 
 ### UI/UX Humana, Dinámica y Accesible
 
@@ -74,7 +74,7 @@ Which phases cover which requirements.
 | UX-01, UX-03, UX-05, UX-06 | Phase 1: Arquitectura Base & Sistema de Diseño Humano | Completed ✓ |
 | CORE-01, CORE-02, CORE-07, CORE-08, UX-02, UX-04 | Phase 2: Motor de Conversión Núcleo (Word <-> PDF) | Completed ✓ |
 | CORE-03, CORE-04, CORE-05, CORE-06, UTIL-01, UTIL-02, UTIL-03 | Phase 3: Conversión Multiformato & Utilidades PDF | Completed ✓ |
-| SEO-01, SEO-02, SEO-03, SEO-04, SEO-05, GEO-01, GEO-02, GEO-03 | Phase 4: Programmatic SEO Matrix, GEO & Geo-targeting | Pending |
+| SEO-01, SEO-02, SEO-03, SEO-04, SEO-05, GEO-01, GEO-02, GEO-03 | Phase 4: Programmatic SEO Matrix, GEO & Geo-targeting | Completed ✓ |
 | UX-02, UX-04, UX-05, SEO-05 | Phase 5: Pulido Visual, Micro-animaciones & Auditoría Core Web Vitals | Pending |
 
 **Coverage:**

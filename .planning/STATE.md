@@ -3,10 +3,10 @@ gsd_state_version: '1.0'
 status: phase_complete
 progress:
   total_phases: 5
-  completed_phases: 3
+  completed_phases: 4
   total_plans: 10
-  completed_plans: 7
-  percent: 70
+  completed_plans: 9
+  percent: 90
 ---
 
 # Project State
@@ -16,23 +16,23 @@ progress:
 See: [.planning/PROJECT.md](file:///c:/Users/simon/OneDrive/Documents/Convertir%20Word%20a%20PDF%20Viceversa%20y%20demas%20archivos/.planning/PROJECT.md) (updated 2026-09-25)
 
 **Core value:** Conversión instantánea, privada y gratuita de documentos (Word <-> PDF y derivados) con una interfaz hiper-dinámica, intuitiva y humana, sin registros ni límites.  
-**Current focus:** Phase 4: Programmatic SEO Matrix, GEO & Geo-targeting
+**Current focus:** Phase 5: Pulido Visual, Micro-animaciones & Auditoría Core Web Vitals
 
 ## Current Position
 
-Phase: 3 of 5 (Conversión Multiformato & Utilidades PDF) — ¡Fase 3 COMPLETADA!  
-Plan: 3 of 3 in Phase 3 (`03-01` ✓, `03-02` ✓, `03-03` ✓)  
+Phase: 4 of 5 (Programmatic SEO Matrix, GEO & Geo-targeting) — ¡Fase 4 COMPLETADA!  
+Plan: 2 of 2 in Phase 4 (`04-01` ✓, `04-02` ✓)  
 Status: Phase complete  
-Last activity: 2026-09-25 — Fase 3 completada y validada: PDF <-> Imágenes (JPG/PNG con ZIP), Imágenes a PDF, extracción a Excel (.xlsx/.csv), y utilidades PDF (Unir, Dividir, Comprimir) con modal interactivo y compilación SSG exitosa  
+Last activity: 2026-09-25 — Fase 4 completada y validada: 14 rutas de conversión SSG pre-renderizadas, inyección Schema.org (SoftwareApplication, HowTo, FAQPage, BreadcrumbList), optimización GEO (respuestas directas para ChatGPT Search y Perplexity), acordeón accesible de FAQs, sitemap.xml y robots.txt listos.  
 
-Progress: [███████░░░] 70%
+Progress: [█████████░] 90%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 7
+- Total plans completed: 9
 - Average duration: ~2.5 min
-- Total execution time: 0.5 hours
+- Total execution time: 0.7 hours
 
 **By Phase:**
 
@@ -41,11 +41,11 @@ Progress: [███████░░░] 70%
 | 1. Arquitectura Base & Sistema de Diseño Humano | 2/2 | 5m | 2.5m |
 | 2. Motor de Conversión Núcleo (Word <-> PDF) | 2/2 | 6m | 3.0m |
 | 3. Conversión Multiformato & Utilidades PDF | 3/3 | 7m | 2.3m |
-| 4. Programmatic SEO Matrix, GEO & Geo-targeting | 0/2 | - | - |
+| 4. Programmatic SEO Matrix, GEO & Geo-targeting | 2/2 | 6m | 3.0m |
 | 5. Pulido Visual, Micro-animaciones & Auditoría Core Web Vitals | 0/1 | - | - |
 
 **Recent Trend:**
-- Last 5 plans: [2m, 3m, 3m, 2m, 2m]
+- Last 5 plans: [3m, 2m, 2m, 3m, 3m]
 - Trend: Highly Stable
 
 ## Accumulated Context
@@ -58,6 +58,7 @@ Progress: [███████░░░] 70%
 - [Phase 1]: Paleta personalizada `warm`, sombras `shadow-warm`, Dropzone interactiva con soporte nativo de portapapeles Ctrl+V.
 - [Phase 2]: Conversión bidireccional local usando `mammoth` + `jsPDF` (Word -> PDF vectorial) y `pdfjs-dist` + `docx` (PDF -> Word editable), con microcopy dinámico y confeti orgánico.
 - [Phase 3]: PDF -> Imágenes 2x Retina con empaquetado ZIP multipágina; extracción de tablas a Excel con `xlsx`; utilidades PDF (Unir, Dividir, Comprimir) usando `pdf-lib` en modal interactivo.
+- [Phase 4]: Matriz maestro de 14 pares de conversión con SSG pre-renderizado, metadatos dinámicos únicos, hreflang multi-país, Schema.org estructurado, bloque GEO para IA, sitemap.xml y robots.txt amigable con GPTBot y PerplexityBot.
 
 ### Pending Todos
 

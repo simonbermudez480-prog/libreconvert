@@ -31,6 +31,13 @@ Conversión instantánea, privada y gratuita de documentos (iniciando con el nú
 - [x] **CORE-08**: 100% de procesamiento local: ningún archivo de usuario se envía a servidores de terceros. (Fase 2)
 - [x] **UX-02**: Barra de progreso y estados de conversión animados con microcopy empático y humano. (Fase 2)
 - [x] **UX-04**: Pantalla de descarga con celebración visual (confeti orgánico) y botón de descarga directa de 1 clic. (Fase 2)
+- [x] **CORE-03**: Conversión de PDF a imágenes (JPG, PNG) en alta resolución con empaquetado ZIP multipágina. (Fase 3)
+- [x] **CORE-04**: Conversión de imágenes (JPG, PNG, WebP) a documento PDF consolidado con proporciones exactas. (Fase 3)
+- [x] **CORE-05**: Conversión de Word y PDF a texto plano (.txt) y HTML semántico. (Fase 3)
+- [x] **CORE-06**: Extracción de datos tabulares de PDF hacia hojas de cálculo Excel (.xlsx / .csv). (Fase 3)
+- [x] **UTIL-01**: Unir múltiples archivos PDF en un documento consolidado sin límites. (Fase 3)
+- [x] **UTIL-02**: Dividir y extraer rangos de páginas específicas de un PDF. (Fase 3)
+- [x] **UTIL-03**: Comprimir y optimizar tamaño de PDF en el navegador. (Fase 3)
 
 ### Active
 

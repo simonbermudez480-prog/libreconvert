@@ -11,10 +11,10 @@ Requirements for initial release. Each maps to roadmap phases.
 
 - [x] **CORE-01**: Conversión de Word (.docx) a PDF directamente en el navegador con preservación de formato, tipografía y tablas.
 - [x] **CORE-02**: Conversión de PDF a Word (.docx) editable en el navegador extrayendo textos, párrafos, encabezados y estilos.
-- [ ] **CORE-03**: Conversión de PDF a imágenes (JPG, PNG) con selección de calidad y resolución por página.
-- [ ] **CORE-04**: Conversión de imágenes (JPG, PNG, WebP) a documento PDF consolidado o por página.
-- [ ] **CORE-05**: Conversión de Word y PDF a texto plano (.txt) y HTML semántico.
-- [ ] **CORE-06**: Conversión de PDF a hojas de cálculo (.xlsx / .csv) cuando el documento contiene tablas estructuradas.
+- [x] **CORE-03**: Conversión de PDF a imágenes (JPG, PNG) con selección de calidad y resolución por página.
+- [x] **CORE-04**: Conversión de imágenes (JPG, PNG, WebP) a documento PDF consolidado o por página.
+- [x] **CORE-05**: Conversión de Word y PDF a texto plano (.txt) y HTML semántico.
+- [x] **CORE-06**: Conversión de PDF a hojas de cálculo (.xlsx / .csv) cuando el documento contiene tablas estructuradas.
 - [x] **CORE-07**: Ejecución de conversiones en Web Workers en segundo plano para garantizar 60fps constantes en la interfaz sin congelamientos.
 - [x] **CORE-08**: 100% de procesamiento local: ningún archivo de usuario se envía a servidores de terceros, garantizando privacidad y costo $0.
 
@@ -43,9 +43,9 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Utilidades PDF Rápidas
 
-- [ ] **UTIL-01**: Unir múltiples archivos PDF en uno solo con ordenamiento visual interactivo.
-- [ ] **UTIL-02**: Dividir o extraer páginas de un documento PDF con vista previa de miniaturas.
-- [ ] **UTIL-03**: Comprimir/optimizar tamaño de PDF en el navegador.
+- [x] **UTIL-01**: Unir múltiples archivos PDF en uno solo con ordenamiento visual interactivo.
+- [x] **UTIL-02**: Dividir o extraer páginas de un documento PDF con vista previa de miniaturas.
+- [x] **UTIL-03**: Comprimir/optimizar tamaño de PDF en el navegador.
 
 ## v2 Requirements
 
@@ -73,7 +73,7 @@ Which phases cover which requirements.
 |-------------|-------|--------|
 | UX-01, UX-03, UX-05, UX-06 | Phase 1: Arquitectura Base & Sistema de Diseño Humano | Completed ✓ |
 | CORE-01, CORE-02, CORE-07, CORE-08, UX-02, UX-04 | Phase 2: Motor de Conversión Núcleo (Word <-> PDF) | Completed ✓ |
-| CORE-03, CORE-04, CORE-05, CORE-06, UTIL-01, UTIL-02, UTIL-03 | Phase 3: Conversión Multiformato & Utilidades PDF | Pending |
+| CORE-03, CORE-04, CORE-05, CORE-06, UTIL-01, UTIL-02, UTIL-03 | Phase 3: Conversión Multiformato & Utilidades PDF | Completed ✓ |
 | SEO-01, SEO-02, SEO-03, SEO-04, SEO-05, GEO-01, GEO-02, GEO-03 | Phase 4: Programmatic SEO Matrix, GEO & Geo-targeting | Pending |
 | UX-02, UX-04, UX-05, SEO-05 | Phase 5: Pulido Visual, Micro-animaciones & Auditoría Core Web Vitals | Pending |
 

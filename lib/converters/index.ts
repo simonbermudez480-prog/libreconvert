@@ -1,6 +1,12 @@
 import { docxToPdf, ConversionProgressCallback } from "./docxToPdf";
 import { pdfToDocx } from "./pdfToDocx";
+import { pdfToImages } from "./pdfToImages";
+import { imagesToPdf } from "./imagesToPdf";
+import { pdfToExcel } from "./pdfToExcel";
+import { mergePdfs, splitPdf, compressPdf } from "./pdfUtilities";
 import mammoth from "mammoth";
+
+export { mergePdfs, splitPdf, compressPdf };
 
 export interface ConversionResult {
   blob: Blob;
@@ -10,7 +16,7 @@ export interface ConversionResult {
 
 /**
  * Orquestador principal de conversiones client-side de LibreConvert.
- * Todo el procesamiento ocurre en la memoria del navegador.
+ * Todo el procesamiento ocurre en la memoria del navegador sin servidores externos.
  */
 export async function convertDocument(
   file: File,
@@ -46,7 +52,25 @@ export async function convertDocument(
     };
   }
 
-  // 3. DOCX -> TXT
+  // 3. PDF -> Imágenes (JPG o PNG)
+  if (sourceExt === "pdf" && (cleanTarget === "jpg" || cleanTarget === "jpeg" || cleanTarget === "png")) {
+    const result = await pdfToImages(buffer, cleanTarget === "png" ? "png" : "jpg", baseName, onProgress);
+    return result;
+  }
+
+  // 4. Imágenes (JPG, PNG, WebP) -> PDF
+  if (["jpg", "jpeg", "png", "webp"].includes(sourceExt) && cleanTarget === "pdf") {
+    const result = await imagesToPdf(buffer, sourceExt, baseName, onProgress);
+    return result;
+  }
+
+  // 5. PDF -> Excel (.xlsx o .csv)
+  if (sourceExt === "pdf" && (cleanTarget === "xlsx" || cleanTarget === "csv")) {
+    const result = await pdfToExcel(buffer, cleanTarget as "xlsx" | "csv", baseName, onProgress);
+    return result;
+  }
+
+  // 6. DOCX -> TXT
   if ((sourceExt === "docx" || sourceExt === "doc") && cleanTarget === "txt") {
     onProgress?.(40, "Extrayendo texto plano del documento...");
     const { value: text } = await mammoth.extractRawText({ arrayBuffer: buffer });
@@ -58,7 +82,7 @@ export async function convertDocument(
     };
   }
 
-  // 4. DOCX -> HTML
+  // 7. DOCX -> HTML
   if ((sourceExt === "docx" || sourceExt === "doc") && cleanTarget === "html") {
     onProgress?.(40, "Extrayendo marcado HTML estructurado...");
     const { value: html } = await mammoth.convertToHtml({ arrayBuffer: buffer });
@@ -86,7 +110,7 @@ export async function convertDocument(
     };
   }
 
-  // 5. PDF -> TXT
+  // 8. PDF -> TXT
   if (sourceExt === "pdf" && cleanTarget === "txt") {
     onProgress?.(20, "Leyendo páginas del PDF...");
     const pdfjsLib = await import("pdfjs-dist");

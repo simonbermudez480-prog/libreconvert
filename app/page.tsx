@@ -2,19 +2,37 @@
 
 import React from "react";
 import Link from "next/link";
+import { useFileHandler } from "@/hooks/useFileHandler";
+import { Dropzone } from "@/components/conversion/Dropzone";
+import { FileCard } from "@/components/conversion/FileCard";
 import { TrustBadges } from "@/components/ui/TrustBadges";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   FileText,
   FileCode,
-  Image,
+  Image as ImageIcon,
   FileSpreadsheet,
   ArrowRight,
   ShieldCheck,
   Sparkles,
   Zap,
+  Trash2,
+  CheckCircle,
 } from "lucide-react";
 
 export default function HomePage() {
+  const {
+    files,
+    isDragging,
+    setIsDragging,
+    addFiles,
+    removeFile,
+    clearFiles,
+    setTargetFormat,
+    notice,
+    setNotice,
+  } = useFileHandler();
+
   const tools = [
     {
       title: "Word a PDF",
@@ -41,7 +59,7 @@ export default function HomePage() {
       desc: "Extrae cada página de tu PDF como una imagen JPG o PNG de alta resolución.",
       from: "PDF",
       to: "JPG / PNG",
-      icon: Image,
+      icon: ImageIcon,
       color: "from-emerald-500 to-teal-600",
       accent: "bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-300",
     },
@@ -50,7 +68,7 @@ export default function HomePage() {
       desc: "Une fotos y capturas (JPG, PNG, WebP) en un único archivo PDF ordenado.",
       from: "IMG",
       to: "PDF",
-      icon: Image,
+      icon: ImageIcon,
       color: "from-purple-500 to-pink-600",
       accent: "bg-purple-50 dark:bg-purple-950/40 text-purple-600 dark:text-purple-300",
     },
@@ -77,11 +95,11 @@ export default function HomePage() {
   return (
     <div className="flex-1 flex flex-col items-center">
       {/* Hero Section */}
-      <section className="w-full max-w-6xl mx-auto px-4 sm:px-6 pt-12 sm:pt-20 pb-8 text-center">
+      <section className="w-full max-w-5xl mx-auto px-4 sm:px-6 pt-10 sm:pt-16 pb-8 text-center">
         {/* Top pill notification */}
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-100/80 dark:bg-amber-950/60 border border-amber-300/50 dark:border-amber-700/40 text-xs sm:text-sm font-semibold text-amber-900 dark:text-amber-200 mb-6 shadow-sm">
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-100/90 dark:bg-amber-950/60 border border-amber-300/50 dark:border-amber-700/40 text-xs sm:text-sm font-semibold text-amber-900 dark:text-amber-200 mb-6 shadow-sm">
           <Sparkles className="w-4 h-4 text-brand-coral animate-pulse" />
-          <span>¡Nuevo! 100% de procesamiento en tu navegador con privacidad total</span>
+          <span>100% de procesamiento en tu navegador con privacidad total</span>
         </div>
 
         {/* Main Title */}
@@ -93,24 +111,68 @@ export default function HomePage() {
         </h1>
 
         {/* Subtitle */}
-        <p className="mt-5 text-base sm:text-xl text-warm-600 dark:text-warm-300 max-w-2xl mx-auto leading-relaxed">
+        <p className="mt-4 text-base sm:text-xl text-warm-600 dark:text-warm-300 max-w-2xl mx-auto leading-relaxed">
           Word a PDF, PDF a Word, imágenes y más. Sin límites de archivos, sin registros y sin que tus documentos viajen por servidores externos.
         </p>
 
-        {/* Placeholder container for Dropzone (to be injected in Plan 01-02) */}
-        <div
-          id="conversor"
-          className="mt-10 sm:mt-12 p-8 sm:p-12 rounded-3xl bg-white/70 dark:bg-warm-900/60 border-2 border-dashed border-warm-300 dark:border-warm-700 shadow-warm max-w-3xl mx-auto flex flex-col items-center justify-center min-h-[260px] text-center"
-        >
-          <div className="w-16 h-16 rounded-2xl bg-amber-50 dark:bg-amber-950/50 flex items-center justify-center text-brand-coral mb-4 shadow-sm">
-            <Zap className="w-8 h-8" />
-          </div>
-          <h2 className="text-xl sm:text-2xl font-bold text-warm-900 dark:text-warm-100 mb-2">
-            Área de Conversión Inteligente
-          </h2>
-          <p className="text-sm text-warm-600 dark:text-warm-400 max-w-md">
-            Preparando la zona de arrastrar y soltar interactiva con soporte de pegado rápido (Ctrl+V)...
-          </p>
+        {/* Interactive Dropzone & File Management Section */}
+        <div id="conversor" className="mt-10 sm:mt-12 w-full max-w-3xl mx-auto">
+          <Dropzone
+            onFilesAdded={addFiles}
+            isDragging={isDragging}
+            setIsDragging={setIsDragging}
+            notice={notice}
+            onClearNotice={() => setNotice(null)}
+          />
+
+          {/* Uploaded Files Section */}
+          <AnimatePresence>
+            {files.length > 0 && (
+              <motion.div
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 15 }}
+                className="mt-6 space-y-3"
+              >
+                <div className="flex items-center justify-between px-2 text-xs sm:text-sm font-bold text-warm-700 dark:text-warm-300">
+                  <span>Archivos seleccionados ({files.length})</span>
+                  <button
+                    type="button"
+                    onClick={clearFiles}
+                    className="flex items-center gap-1 text-xs text-warm-500 hover:text-rose-500 transition-colors"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                    <span>Limpiar todo</span>
+                  </button>
+                </div>
+
+                <div className="space-y-2.5">
+                  {files.map((managedFile) => (
+                    <FileCard
+                      key={managedFile.id}
+                      managedFile={managedFile}
+                      onRemove={removeFile}
+                      onFormatChange={setTargetFormat}
+                    />
+                  ))}
+                </div>
+
+                {/* Primary Action Button */}
+                <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      alert("¡Excelente! En la Fase 2 conectaremos el motor de conversión en Web Workers para procesar estos archivos directamente en tu navegador.");
+                    }}
+                    className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-gradient-to-r from-brand-amber via-brand-coral to-brand-rose text-white text-base sm:text-lg font-black shadow-warm hover:shadow-warm-lg hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2"
+                  >
+                    <Zap className="w-5 h-5" />
+                    <span>Convertir {files.length === 1 ? "archivo" : `${files.length} archivos`} ahora</span>
+                  </button>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </section>
 
@@ -184,7 +246,7 @@ export default function HomePage() {
           </h2>
           <p className="text-sm sm:text-base text-warm-600 dark:text-warm-400 leading-relaxed max-w-2xl mx-auto">
             La gran mayoría de conversores online suben tus archivos privados a servidores lejanos para procesarlos y luego te cobran suscripciones mensuales o te bloquean tras 2 o 3 documentos.
-            En <strong>LibreConvert</strong>, los algoritmos se descargan una sola vez y corren localmente en la memoria de tu navegador: <strong>privacidad garantizada por la física del código y costo \$0 para siempre.</strong>
+            En <strong>LibreConvert</strong>, los algoritmos se descargan una sola vez y corren localmente en la memoria de tu navegador: <strong>privacidad garantizada por la física del código y costo $0 para siempre.</strong>
           </p>
         </div>
       </section>

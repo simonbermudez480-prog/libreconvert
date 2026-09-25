@@ -21,7 +21,10 @@ Conversión instantánea, privada y gratuita de documentos (iniciando con el nú
 
 ### Validated
 
-(None yet — ship to validate)
+- [x] **UX-01**: Zona de arrastrar y soltar (Drag and Drop) ultra-intuitiva con respuesta física visual, estados activos animados y soporte de pegado (Ctrl+V) de archivos. (Fase 1)
+- [x] **UX-03**: Micro-animaciones fluidas con Framer Motion (transiciones de estado, animaciones de entrada/salida y micro-interacciones en botones). (Fase 1)
+- [x] **UX-05**: Diseño 100% responsive (Mobile, Tablet y Desktop) con modo oscuro/claro y paleta de colores cálida y accesible (WCAG AAA). (Fase 1)
+- [x] **UX-06**: Insignias visibles de confianza ("100% Privado: Tus archivos nunca salen de tu ordenador", "Sin registro", "Sin límites"). (Fase 1)
 
 ### Active
 

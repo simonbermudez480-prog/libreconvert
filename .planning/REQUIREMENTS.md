@@ -34,12 +34,12 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### UI/UX Humana, Dinámica y Accesible
 
-- [ ] **UX-01**: Zona de arrastrar y soltar (Drag and Drop) ultra-intuitiva con respuesta física visual, estados activos animados y soporte de pegado (Ctrl+V) de archivos.
+- [x] **UX-01**: Zona de arrastrar y soltar (Drag and Drop) ultra-intuitiva con respuesta física visual, estados activos animados y soporte de pegado (Ctrl+V) de archivos.
 - [ ] **UX-02**: Barra de progreso y estados de conversión animados con microcopy empático y humano ("Preparando tus páginas...", "Haciendo la magia...", "Todo listo para ti").
-- [ ] **UX-03**: Micro-animaciones fluidas con Framer Motion (transiciones de estado, animaciones de entrada/salida y micro-interacciones en botones).
+- [x] **UX-03**: Micro-animaciones fluidas con Framer Motion (transiciones de estado, animaciones de entrada/salida y micro-interacciones en botones).
 - [ ] **UX-04**: Pantalla de descarga con animación de éxito (confeti orgánico, previsualización rápida del archivo y botón de descarga directa de 1 clic).
-- [ ] **UX-05**: Diseño 100% responsive (Mobile, Tablet y Desktop) con modo oscuro/claro y paleta de colores cálida y accesible (WCAG AAA).
-- [ ] **UX-06**: Insignias visibles de confianza ("100% Privado: Tus archivos nunca salen de tu ordenador", "Sin registro", "Sin límites").
+- [x] **UX-05**: Diseño 100% responsive (Mobile, Tablet y Desktop) con modo oscuro/claro y paleta de colores cálida y accesible (WCAG AAA).
+- [x] **UX-06**: Insignias visibles de confianza ("100% Privado: Tus archivos nunca salen de tu ordenador", "Sin registro", "Sin límites").
 
 ### Utilidades PDF Rápidas
 
@@ -71,7 +71,7 @@ Which phases cover which requirements.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| UX-01, UX-03, UX-05, UX-06 | Phase 1: Arquitectura Base & Sistema de Diseño Humano | Pending |
+| UX-01, UX-03, UX-05, UX-06 | Phase 1: Arquitectura Base & Sistema de Diseño Humano | Completed ✓ |
 | CORE-01, CORE-02, CORE-07, CORE-08, UX-02, UX-04 | Phase 2: Motor de Conversión Núcleo (Word <-> PDF) | Pending |
 | CORE-03, CORE-04, CORE-05, CORE-06, UTIL-01, UTIL-02, UTIL-03 | Phase 3: Conversión Multiformato & Utilidades PDF | Pending |
 | SEO-01, SEO-02, SEO-03, SEO-04, SEO-05, GEO-01, GEO-02, GEO-03 | Phase 4: Programmatic SEO Matrix, GEO & Geo-targeting | Pending |

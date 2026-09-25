@@ -25,7 +25,7 @@ LibreConvert es una plataforma web 100% gratuita y privada para la conversión b
 **Plans**: 2 plans
 
 Plans:
-- [ ] 01-01: Inicialización del proyecto Next.js con Tailwind, TypeScript, lucide-react y estructura base de componentes UI.
+- [x] 01-01: Inicialización del proyecto Next.js con Tailwind, TypeScript, lucide-react y estructura base de componentes UI.
 - [ ] 01-02: Implementación del componente Drag & Drop reactivo con micro-animaciones, validación de extensiones y soporte Ctrl+V.
 
 ---
@@ -102,7 +102,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Arquitectura Base & Sistema de Diseño Humano | 0/2 | Not started | - |
+| 1. Arquitectura Base & Sistema de Diseño Humano | 1/2 | In progress | - |
 | 2. Motor de Conversión Núcleo (Word <-> PDF) | 0/2 | Not started | - |
 | 3. Conversión Multiformato & Utilidades PDF | 0/3 | Not started | - |
 | 4. Programmatic SEO Matrix, GEO & Geo-targeting | 0/2 | Not started | - |

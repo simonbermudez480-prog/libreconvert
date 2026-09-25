@@ -10,7 +10,7 @@ LibreConvert es una plataforma web 100% gratuita y privada para la conversión b
 - [x] **Phase 2: Motor de Conversión Núcleo (Word <-> PDF)** - Conversión client-side de DOCX a PDF y PDF a DOCX en Web Workers con feedback empático.
 - [x] **Phase 3: Conversión Multiformato & Utilidades PDF** - Soporte de imágenes (JPG/PNG), Excel, Texto plano, Unir, Dividir y Comprimir PDFs.
 - [x] **Phase 4: Programmatic SEO Matrix, GEO & Geo-targeting** - Rutas dinámicas SSG, Schema.org enriquecido, optimización para motores de IA y sitemaps.
-- [ ] **Phase 5: Pulido Visual, Micro-animaciones & Auditoría Core Web Vitals** - Interacciones de deleite, optimización extrema de rendimiento (Lighthouse 95+) y accesibilidad.
+- [x] **Phase 5: Pulido Visual, Micro-animaciones & Auditoría Core Web Vitals** - Interacciones de deleite, optimización extrema de rendimiento (Lighthouse 95+) y accesibilidad.
 
 ## Phase Details
 
@@ -93,7 +93,7 @@ Plans:
 **Plans**: 1 plan
 
 Plans:
-- [ ] 05-01: Pulido visual de animaciones orgánicas, diseño responsivo, accesibilidad WCAG y auditoría Lighthouse de Core Web Vitals.
+- [x] 05-01: Pulido visual de animaciones orgánicas, diseño responsivo, accesibilidad WCAG y auditoría Lighthouse de Core Web Vitals.
 
 ## Progress
 
@@ -106,7 +106,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 2. Motor de Conversión Núcleo (Word <-> PDF) | 2/2 | Completed | 2026-09-25 |
 | 3. Conversión Multiformato & Utilidades PDF | 3/3 | Completed | 2026-09-25 |
 | 4. Programmatic SEO Matrix, GEO & Geo-targeting | 2/2 | Completed | 2026-09-25 |
-| 5. Pulido Visual, Micro-animaciones & Auditoría Core Web Vitals | 0/1 | Not started | - |
+| 5. Pulido Visual, Micro-animaciones & Auditoría Core Web Vitals | 1/1 | Completed | 2026-09-25 |
 
 ---
 *Roadmap defined: 2026-09-25*

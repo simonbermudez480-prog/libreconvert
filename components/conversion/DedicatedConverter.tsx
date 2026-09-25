@@ -269,11 +269,20 @@ export function DedicatedConverter({ meta }: DedicatedConverterProps) {
 
             {/* Drop / Select zone for Utility */}
             <div
+              role="button"
+              tabIndex={0}
+              aria-label="Zona de arrastre o selección de archivos para herramientas PDF"
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  fileInputRef.current?.click();
+                }
+              }}
               onDragOver={handleDragOver}
               onDragLeave={handleDragLeave}
               onDrop={handleDrop}
               onClick={() => fileInputRef.current?.click()}
-              className={`border-2 border-dashed rounded-3xl p-8 sm:p-10 text-center cursor-pointer transition-all duration-200 ${
+              className={`border-2 border-dashed rounded-3xl p-8 sm:p-10 text-center cursor-pointer transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-coral focus-visible:ring-offset-2 ${
                 isDragging
                   ? "border-brand-coral bg-brand-coral/5 scale-[1.01]"
                   : "border-stone-300 dark:border-stone-700 hover:border-brand-amber hover:bg-stone-50/60 dark:hover:bg-stone-800/40"
@@ -461,11 +470,20 @@ export function DedicatedConverter({ meta }: DedicatedConverterProps) {
 
                   {/* Dropzone */}
                   <div
+                    role="button"
+                    tabIndex={0}
+                    aria-label={`Zona de arrastre o selección de archivos para convertir a ${meta.toFormat}`}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        fileInputRef.current?.click();
+                      }
+                    }}
                     onDragOver={handleDragOver}
                     onDragLeave={handleDragLeave}
                     onDrop={handleDrop}
                     onClick={() => fileInputRef.current?.click()}
-                    className={`border-2 border-dashed rounded-3xl p-8 sm:p-12 text-center cursor-pointer transition-all duration-200 ${
+                    className={`border-2 border-dashed rounded-3xl p-8 sm:p-12 text-center cursor-pointer transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-coral focus-visible:ring-offset-2 ${
                       isDragging
                         ? "border-brand-coral bg-brand-coral/5 scale-[1.01]"
                         : "border-stone-300 dark:border-stone-700 hover:border-brand-amber hover:bg-stone-50/60 dark:hover:bg-stone-800/40"

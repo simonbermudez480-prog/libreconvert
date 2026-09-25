@@ -83,6 +83,15 @@ export function Dropzone({
       </AnimatePresence>
 
       <motion.div
+        role="button"
+        tabIndex={0}
+        aria-label="Zona de arrastre o selección de archivos para convertir"
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            handleClick();
+          }
+        }}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
@@ -93,7 +102,7 @@ export function Dropzone({
           borderColor: isDragging ? "#F97316" : "",
           backgroundColor: isDragging ? "rgba(249, 115, 22, 0.05)" : "",
         }}
-        className={`relative cursor-pointer p-8 sm:p-14 rounded-4xl border-2 border-dashed transition-all duration-300 flex flex-col items-center justify-center text-center shadow-warm group ${
+        className={`relative cursor-pointer p-8 sm:p-14 rounded-4xl border-2 border-dashed transition-all duration-300 flex flex-col items-center justify-center text-center shadow-warm group focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-coral focus-visible:ring-offset-2 ${
           isDragging
             ? "border-brand-coral bg-brand-coral/5 shadow-glow"
             : "border-warm-300/80 dark:border-warm-700 bg-white/80 dark:bg-warm-900/60 hover:border-brand-coral/60 hover:bg-warm-50/50 dark:hover:bg-warm-900"

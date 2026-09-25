@@ -24,7 +24,7 @@ Requirements for initial release. Each maps to roadmap phases.
 - [x] **SEO-02**: Metadatos dinámicos únicos (Title, Meta Description, Canonical URLs, OpenGraph, Twitter Cards) por cada par de conversión optimizados para CTR.
 - [x] **SEO-03**: Marcado Schema.org enriquecido (`SoftwareApplication`, `HowTo` con pasos paso a paso, `BreadcrumbList` y `FAQPage`).
 - [x] **SEO-04**: Sitemap XML dinámico (`/sitemap.xml`) y directivas de rastreo (`robots.txt`) que priorizan las rutas de conversión clave.
-- [ ] **SEO-05**: Optimización extrema de Core Web Vitals (LCP < 1.2s, CLS = 0, INP < 100ms) con zero-JS payload innecesario en la carga inicial.
+- [x] **SEO-05**: Optimización extrema de Core Web Vitals (LCP < 1.2s, CLS = 0, INP < 100ms) con zero-JS payload innecesario en la carga inicial.
 
 ### GEO (Generative Engine Optimization) & Localización
 
@@ -75,12 +75,13 @@ Which phases cover which requirements.
 | CORE-01, CORE-02, CORE-07, CORE-08, UX-02, UX-04 | Phase 2: Motor de Conversión Núcleo (Word <-> PDF) | Completed ✓ |
 | CORE-03, CORE-04, CORE-05, CORE-06, UTIL-01, UTIL-02, UTIL-03 | Phase 3: Conversión Multiformato & Utilidades PDF | Completed ✓ |
 | SEO-01, SEO-02, SEO-03, SEO-04, SEO-05, GEO-01, GEO-02, GEO-03 | Phase 4: Programmatic SEO Matrix, GEO & Geo-targeting | Completed ✓ |
-| UX-02, UX-04, UX-05, SEO-05 | Phase 5: Pulido Visual, Micro-animaciones & Auditoría Core Web Vitals | Pending |
+| UX-02, UX-04, UX-05, SEO-05 | Phase 5: Pulido Visual, Micro-animaciones & Auditoría Core Web Vitals | Completed ✓ |
 
 **Coverage:**
 - v1 requirements: 23 total
 - Mapped to phases: 23
 - Unmapped: 0 ✓
+- Completed: 23 of 23 (100%) ✓
 
 ---
 *Requirements defined: 2026-09-25*

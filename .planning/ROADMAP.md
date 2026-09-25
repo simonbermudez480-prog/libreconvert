@@ -7,7 +7,7 @@ LibreConvert es una plataforma web 100% gratuita y privada para la conversión b
 ## Phases
 
 - [x] **Phase 1: Arquitectura Base & Sistema de Diseño Humano** - Configuración de Next.js, Tailwind, Framer Motion y zona interactiva Drag & Drop.
-- [ ] **Phase 2: Motor de Conversión Núcleo (Word <-> PDF)** - Conversión client-side de DOCX a PDF y PDF a DOCX en Web Workers con feedback empático.
+- [x] **Phase 2: Motor de Conversión Núcleo (Word <-> PDF)** - Conversión client-side de DOCX a PDF y PDF a DOCX en Web Workers con feedback empático.
 - [ ] **Phase 3: Conversión Multiformato & Utilidades PDF** - Soporte de imágenes (JPG/PNG), Excel, Texto plano, Unir, Dividir y Comprimir PDFs.
 - [ ] **Phase 4: Programmatic SEO Matrix, GEO & Geo-targeting** - Rutas dinámicas SSG, Schema.org enriquecido, optimización para motores de IA y sitemaps.
 - [ ] **Phase 5: Pulido Visual, Micro-animaciones & Auditoría Core Web Vitals** - Interacciones de deleite, optimización extrema de rendimiento (Lighthouse 95+) y accesibilidad.
@@ -42,8 +42,8 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 02-01: Arquitectura de Web Workers y motor de conversión DOCX a PDF y PDF a DOCX en el navegador.
-- [ ] 02-02: Integración de la UI de conversión con estados de progreso empáticos, microcopy dinámico y pantalla de descarga celebratoria.
+- [x] 02-01: Arquitectura de Web Workers y motor de conversión DOCX a PDF y PDF a DOCX en el navegador.
+- [x] 02-02: Integración de la UI de conversión con estados de progreso empáticos, microcopy dinámico y pantalla de descarga celebratoria.
 
 ---
 
@@ -103,7 +103,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Arquitectura Base & Sistema de Diseño Humano | 2/2 | Completed | 2026-09-25 |
-| 2. Motor de Conversión Núcleo (Word <-> PDF) | 0/2 | Not started | - |
+| 2. Motor de Conversión Núcleo (Word <-> PDF) | 2/2 | Completed | 2026-09-25 |
 | 3. Conversión Multiformato & Utilidades PDF | 0/3 | Not started | - |
 | 4. Programmatic SEO Matrix, GEO & Geo-targeting | 0/2 | Not started | - |
 | 5. Pulido Visual, Micro-animaciones & Auditoría Core Web Vitals | 0/1 | Not started | - |

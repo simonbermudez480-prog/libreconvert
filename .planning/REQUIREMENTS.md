@@ -9,14 +9,14 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Core Conversion Engine (Client-Side Wasm/JS)
 
-- [ ] **CORE-01**: Conversión de Word (.docx) a PDF directamente en el navegador con preservación de formato, tipografía y tablas.
-- [ ] **CORE-02**: Conversión de PDF a Word (.docx) editable en el navegador extrayendo textos, párrafos, encabezados y estilos.
+- [x] **CORE-01**: Conversión de Word (.docx) a PDF directamente en el navegador con preservación de formato, tipografía y tablas.
+- [x] **CORE-02**: Conversión de PDF a Word (.docx) editable en el navegador extrayendo textos, párrafos, encabezados y estilos.
 - [ ] **CORE-03**: Conversión de PDF a imágenes (JPG, PNG) con selección de calidad y resolución por página.
 - [ ] **CORE-04**: Conversión de imágenes (JPG, PNG, WebP) a documento PDF consolidado o por página.
 - [ ] **CORE-05**: Conversión de Word y PDF a texto plano (.txt) y HTML semántico.
 - [ ] **CORE-06**: Conversión de PDF a hojas de cálculo (.xlsx / .csv) cuando el documento contiene tablas estructuradas.
-- [ ] **CORE-07**: Ejecución de conversiones en Web Workers en segundo plano para garantizar 60fps constantes en la interfaz sin congelamientos.
-- [ ] **CORE-08**: 100% de procesamiento local: ningún archivo de usuario se envía a servidores de terceros, garantizando privacidad y costo $0.
+- [x] **CORE-07**: Ejecución de conversiones en Web Workers en segundo plano para garantizar 60fps constantes en la interfaz sin congelamientos.
+- [x] **CORE-08**: 100% de procesamiento local: ningún archivo de usuario se envía a servidores de terceros, garantizando privacidad y costo $0.
 
 ### Programmatic SEO & Web Performance
 
@@ -35,9 +35,9 @@ Requirements for initial release. Each maps to roadmap phases.
 ### UI/UX Humana, Dinámica y Accesible
 
 - [x] **UX-01**: Zona de arrastrar y soltar (Drag and Drop) ultra-intuitiva con respuesta física visual, estados activos animados y soporte de pegado (Ctrl+V) de archivos.
-- [ ] **UX-02**: Barra de progreso y estados de conversión animados con microcopy empático y humano ("Preparando tus páginas...", "Haciendo la magia...", "Todo listo para ti").
+- [x] **UX-02**: Barra de progreso y estados de conversión animados con microcopy empático y humano ("Preparando tus páginas...", "Haciendo la magia...", "Todo listo para ti").
 - [x] **UX-03**: Micro-animaciones fluidas con Framer Motion (transiciones de estado, animaciones de entrada/salida y micro-interacciones en botones).
-- [ ] **UX-04**: Pantalla de descarga con animación de éxito (confeti orgánico, previsualización rápida del archivo y botón de descarga directa de 1 clic).
+- [x] **UX-04**: Pantalla de descarga con animación de éxito (confeti orgánico, previsualización rápida del archivo y botón de descarga directa de 1 clic).
 - [x] **UX-05**: Diseño 100% responsive (Mobile, Tablet y Desktop) con modo oscuro/claro y paleta de colores cálida y accesible (WCAG AAA).
 - [x] **UX-06**: Insignias visibles de confianza ("100% Privado: Tus archivos nunca salen de tu ordenador", "Sin registro", "Sin límites").
 
@@ -72,7 +72,7 @@ Which phases cover which requirements.
 | Requirement | Phase | Status |
 |-------------|-------|--------|
 | UX-01, UX-03, UX-05, UX-06 | Phase 1: Arquitectura Base & Sistema de Diseño Humano | Completed ✓ |
-| CORE-01, CORE-02, CORE-07, CORE-08, UX-02, UX-04 | Phase 2: Motor de Conversión Núcleo (Word <-> PDF) | Pending |
+| CORE-01, CORE-02, CORE-07, CORE-08, UX-02, UX-04 | Phase 2: Motor de Conversión Núcleo (Word <-> PDF) | Completed ✓ |
 | CORE-03, CORE-04, CORE-05, CORE-06, UTIL-01, UTIL-02, UTIL-03 | Phase 3: Conversión Multiformato & Utilidades PDF | Pending |
 | SEO-01, SEO-02, SEO-03, SEO-04, SEO-05, GEO-01, GEO-02, GEO-03 | Phase 4: Programmatic SEO Matrix, GEO & Geo-targeting | Pending |
 | UX-02, UX-04, UX-05, SEO-05 | Phase 5: Pulido Visual, Micro-animaciones & Auditoría Core Web Vitals | Pending |

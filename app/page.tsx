@@ -1,11 +1,13 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { useFileHandler } from "@/hooks/useFileHandler";
 import { Dropzone } from "@/components/conversion/Dropzone";
 import { FileCard } from "@/components/conversion/FileCard";
+import { CelebrationModal } from "@/components/conversion/CelebrationModal";
 import { TrustBadges } from "@/components/ui/TrustBadges";
+import { convertDocument } from "@/lib/converters";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   FileText,
@@ -17,7 +19,8 @@ import {
   Sparkles,
   Zap,
   Trash2,
-  CheckCircle,
+  CheckCircle2,
+  Loader2,
 } from "lucide-react";
 
 export default function HomePage() {
@@ -29,9 +32,58 @@ export default function HomePage() {
     removeFile,
     clearFiles,
     setTargetFormat,
+    updateFileStatus,
     notice,
     setNotice,
   } = useFileHandler();
+
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [showCelebration, setShowCelebration] = useState(false);
+
+  const completedFiles = files.filter((f) => f.status === "completed");
+  const allCompleted = files.length > 0 && files.every((f) => f.status === "completed");
+
+  const handleStartConversion = async () => {
+    if (files.length === 0 || isProcessing) return;
+
+    setIsProcessing(true);
+    setShowCelebration(false);
+
+    for (const item of files) {
+      if (item.status === "completed") continue;
+
+      updateFileStatus(item.id, "converting", 5);
+
+      try {
+        const result = await convertDocument(
+          item.file,
+          item.targetFormat,
+          (percent) => {
+            updateFileStatus(item.id, "converting", percent);
+          }
+        );
+
+        updateFileStatus(item.id, "completed", 100, result.blob);
+      } catch (err: any) {
+        console.error("Error al convertir:", err);
+        updateFileStatus(
+          item.id,
+          "error",
+          0,
+          undefined,
+          err?.message || "Ocurrió un error al procesar el archivo localmente."
+        );
+      }
+    }
+
+    setIsProcessing(false);
+    setShowCelebration(true);
+  };
+
+  const handleReset = () => {
+    clearFiles();
+    setShowCelebration(false);
+  };
 
   const tools = [
     {
@@ -117,60 +169,81 @@ export default function HomePage() {
 
         {/* Interactive Dropzone & File Management Section */}
         <div id="conversor" className="mt-10 sm:mt-12 w-full max-w-3xl mx-auto">
-          <Dropzone
-            onFilesAdded={addFiles}
-            isDragging={isDragging}
-            setIsDragging={setIsDragging}
-            notice={notice}
-            onClearNotice={() => setNotice(null)}
-          />
-
-          {/* Uploaded Files Section */}
+          {/* Si ya terminó la conversión y se muestra celebración */}
           <AnimatePresence>
-            {files.length > 0 && (
-              <motion.div
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 15 }}
-                className="mt-6 space-y-3"
-              >
-                <div className="flex items-center justify-between px-2 text-xs sm:text-sm font-bold text-warm-700 dark:text-warm-300">
-                  <span>Archivos seleccionados ({files.length})</span>
-                  <button
-                    type="button"
-                    onClick={clearFiles}
-                    className="flex items-center gap-1 text-xs text-warm-500 hover:text-rose-500 transition-colors"
-                  >
-                    <Trash2 className="w-3.5 h-3.5" />
-                    <span>Limpiar todo</span>
-                  </button>
-                </div>
+            {showCelebration && allCompleted ? (
+              <CelebrationModal completedFiles={completedFiles} onReset={handleReset} />
+            ) : (
+              <>
+                <Dropzone
+                  onFilesAdded={addFiles}
+                  isDragging={isDragging}
+                  setIsDragging={setIsDragging}
+                  notice={notice}
+                  onClearNotice={() => setNotice(null)}
+                />
 
-                <div className="space-y-2.5">
-                  {files.map((managedFile) => (
-                    <FileCard
-                      key={managedFile.id}
-                      managedFile={managedFile}
-                      onRemove={removeFile}
-                      onFormatChange={setTargetFormat}
-                    />
-                  ))}
-                </div>
+                {/* Uploaded Files Section */}
+                <AnimatePresence>
+                  {files.length > 0 && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 15 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 15 }}
+                      className="mt-6 space-y-3"
+                    >
+                      <div className="flex items-center justify-between px-2 text-xs sm:text-sm font-bold text-warm-700 dark:text-warm-300">
+                        <span>Archivos preparados ({files.length})</span>
+                        {!isProcessing && (
+                          <button
+                            type="button"
+                            onClick={clearFiles}
+                            className="flex items-center gap-1 text-xs text-warm-500 hover:text-rose-500 transition-colors"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                            <span>Limpiar lista</span>
+                          </button>
+                        )}
+                      </div>
 
-                {/* Primary Action Button */}
-                <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      alert("¡Excelente! En la Fase 2 conectaremos el motor de conversión en Web Workers para procesar estos archivos directamente en tu navegador.");
-                    }}
-                    className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-gradient-to-r from-brand-amber via-brand-coral to-brand-rose text-white text-base sm:text-lg font-black shadow-warm hover:shadow-warm-lg hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2"
-                  >
-                    <Zap className="w-5 h-5" />
-                    <span>Convertir {files.length === 1 ? "archivo" : `${files.length} archivos`} ahora</span>
-                  </button>
-                </div>
-              </motion.div>
+                      <div className="space-y-3">
+                        {files.map((managedFile) => (
+                          <FileCard
+                            key={managedFile.id}
+                            managedFile={managedFile}
+                            onRemove={removeFile}
+                            onFormatChange={setTargetFormat}
+                          />
+                        ))}
+                      </div>
+
+                      {/* Primary Action Button */}
+                      <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3">
+                        <button
+                          type="button"
+                          disabled={isProcessing}
+                          onClick={handleStartConversion}
+                          className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-gradient-to-r from-brand-amber via-brand-coral to-brand-rose text-white text-base sm:text-lg font-black shadow-warm hover:shadow-warm-lg hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
+                        >
+                          {isProcessing ? (
+                            <>
+                              <Loader2 className="w-5 h-5 animate-spin" />
+                              <span>Procesando archivos localmente...</span>
+                            </>
+                          ) : (
+                            <>
+                              <Zap className="w-5 h-5" />
+                              <span>
+                                Convertir {files.length === 1 ? "archivo" : `${files.length} archivos`} ahora (100% Gratis)
+                              </span>
+                            </>
+                          )}
+                        </button>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </>
             )}
           </AnimatePresence>
         </div>

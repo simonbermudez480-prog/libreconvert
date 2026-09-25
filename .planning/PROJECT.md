@@ -25,6 +25,12 @@ Conversión instantánea, privada y gratuita de documentos (iniciando con el nú
 - [x] **UX-03**: Micro-animaciones fluidas con Framer Motion (transiciones de estado, animaciones de entrada/salida y micro-interacciones en botones). (Fase 1)
 - [x] **UX-05**: Diseño 100% responsive (Mobile, Tablet y Desktop) con modo oscuro/claro y paleta de colores cálida y accesible (WCAG AAA). (Fase 1)
 - [x] **UX-06**: Insignias visibles de confianza ("100% Privado: Tus archivos nunca salen de tu ordenador", "Sin registro", "Sin límites"). (Fase 1)
+- [x] **CORE-01**: Conversión de Word (.docx) a PDF directamente en el navegador con preservación de formato, tipografía y tablas. (Fase 2)
+- [x] **CORE-02**: Conversión de PDF a Word (.docx) editable en el navegador extrayendo textos, párrafos, encabezados y estilos. (Fase 2)
+- [x] **CORE-07**: Ejecución de conversiones en segundo plano con seguimiento continuo de progreso (0% a 100%). (Fase 2)
+- [x] **CORE-08**: 100% de procesamiento local: ningún archivo de usuario se envía a servidores de terceros. (Fase 2)
+- [x] **UX-02**: Barra de progreso y estados de conversión animados con microcopy empático y humano. (Fase 2)
+- [x] **UX-04**: Pantalla de descarga con celebración visual (confeti orgánico) y botón de descarga directa de 1 clic. (Fase 2)
 
 ### Active
 

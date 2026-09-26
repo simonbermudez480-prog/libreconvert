@@ -114,7 +114,15 @@ export function DedicatedConverter({ meta }: DedicatedConverterProps) {
           }
         );
 
-        updateFileStatus(item.id, "completed", 100, result.blob);
+        updateFileStatus(
+          item.id,
+          "completed",
+          100,
+          result.blob,
+          undefined,
+          result.fileName,
+          result.mimeType
+        );
       } catch (err: any) {
         console.error("Error al convertir:", err);
         updateFileStatus(

@@ -86,7 +86,11 @@ export function CelebrationModal({ completedFiles, onReset }: CelebrationModalPr
       {/* Files List */}
       <div className="mt-6 space-y-3 max-w-xl mx-auto text-left">
         {completedFiles.map((file) => {
-          const downloadName = `libreconvert-${file.name.replace(/\.[^/.]+$/, "")}.${file.targetFormat}`;
+          const downloadName = file.resultFileName
+            ? (file.resultFileName.startsWith("libreconvert-") ? file.resultFileName : `libreconvert-${file.resultFileName}`)
+            : `libreconvert-${file.name.replace(/\.[^/.]+$/, "")}.${file.targetFormat}`;
+          const isZip = downloadName.endsWith(".zip");
+          const formatDisplay = isZip ? `ZIP (${file.targetFormat.toUpperCase()})` : file.targetFormat;
           return (
             <div
               key={file.id}
@@ -101,7 +105,7 @@ export function CelebrationModal({ completedFiles, onReset }: CelebrationModalPr
                     {downloadName}
                   </p>
                   <p className="text-xs text-warm-500">
-                    {formatFileSize(file.resultBlob?.size || file.size)} • Formato: <span className="uppercase font-semibold text-emerald-600 dark:text-emerald-400">{file.targetFormat}</span>
+                    {formatFileSize(file.resultBlob?.size || file.size)} • Formato: <span className="uppercase font-semibold text-emerald-600 dark:text-emerald-400">{formatDisplay}</span>
                   </p>
                 </div>
               </div>
@@ -129,9 +133,12 @@ export function CelebrationModal({ completedFiles, onReset }: CelebrationModalPr
             onClick={() => {
               completedFiles.forEach((file) => {
                 if (file.resultUrl) {
+                  const downloadName = file.resultFileName
+                    ? (file.resultFileName.startsWith("libreconvert-") ? file.resultFileName : `libreconvert-${file.resultFileName}`)
+                    : `libreconvert-${file.name.replace(/\.[^/.]+$/, "")}.${file.targetFormat}`;
                   const a = document.createElement("a");
                   a.href = file.resultUrl;
-                  a.download = `libreconvert-${file.name.replace(/\.[^/.]+$/, "")}.${file.targetFormat}`;
+                  a.download = downloadName;
                   a.click();
                 }
               });

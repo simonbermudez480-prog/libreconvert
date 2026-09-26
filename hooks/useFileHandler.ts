@@ -13,6 +13,8 @@ export interface ManagedFile {
   progress: number;
   resultBlob?: Blob;
   resultUrl?: string;
+  resultFileName?: string;
+  resultMimeType?: string;
   error?: string;
 }
 
@@ -162,7 +164,9 @@ export function useFileHandler() {
       status: ManagedFile["status"],
       progress = 0,
       resultBlob?: Blob,
-      error?: string
+      error?: string,
+      resultFileName?: string,
+      resultMimeType?: string
     ) => {
       setFiles((prev) =>
         prev.map((f) => {
@@ -174,6 +178,8 @@ export function useFileHandler() {
             progress,
             resultBlob: resultBlob || f.resultBlob,
             resultUrl,
+            resultFileName: resultFileName || f.resultFileName,
+            resultMimeType: resultMimeType || f.resultMimeType,
             error,
           };
         })

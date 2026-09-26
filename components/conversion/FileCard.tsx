@@ -28,8 +28,14 @@ export function FileCard({
   onRemove,
   onFormatChange,
 }: FileCardProps) {
-  const { id, name, size, ext, targetFormat, status, progress, resultUrl, error } =
+  const { id, name, size, ext, targetFormat, status, progress, resultUrl, resultFileName, error } =
     managedFile;
+
+  const downloadName = resultFileName
+    ? (resultFileName.startsWith("libreconvert-") ? resultFileName : `libreconvert-${resultFileName}`)
+    : `libreconvert-${name.replace(/\.[^/.]+$/, "")}.${targetFormat}`;
+
+  const isZip = downloadName.endsWith(".zip");
 
   const getFileIcon = (fileExt: string) => {
     switch (fileExt.toLowerCase()) {
@@ -93,11 +99,12 @@ export function FileCard({
               </span>
               <a
                 href={resultUrl}
-                download={`libreconvert-${name.replace(/\.[^/.]+$/, "")}.${targetFormat}`}
+                download={downloadName}
                 className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white text-xs sm:text-sm font-bold shadow-sm hover:scale-105 active:scale-95 transition-all"
+                title={downloadName}
               >
                 <Download className="w-4 h-4" />
-                <span>Descargar</span>
+                <span>Descargar {isZip ? "ZIP" : ""}</span>
               </a>
             </div>
           )}

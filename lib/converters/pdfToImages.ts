@@ -71,8 +71,11 @@ export async function pdfToImages(
       );
     });
 
+    const padLength = numPages >= 100 ? 3 : numPages >= 10 ? 2 : 1;
+    const pageNumStr = String(i).padStart(padLength, "0");
+
     pageBlobs.push({
-      name: `${baseName}-pagina-${i}.${ext}`,
+      name: `${baseName}-pagina-${pageNumStr}.${ext}`,
       blob: pageBlob,
     });
   }
@@ -82,13 +85,13 @@ export async function pdfToImages(
     onProgress?.(100, "¡Imagen generada con éxito!");
     return {
       blob: pageBlobs[0].blob,
-      fileName: pageBlobs[0].name,
+      fileName: `${baseName}.${ext}`,
       mimeType,
     };
   }
 
   // Si tiene múltiples páginas, empaquetar en un ZIP limpio
-  onProgress?.(90, "Empaquetando todas las páginas en un archivo ZIP...");
+  onProgress?.(90, `Empaquetando las ${numPages} páginas en un archivo ZIP...`);
   const zip = new JSZip();
   pageBlobs.forEach((item) => {
     zip.file(item.name, item.blob);
@@ -103,7 +106,7 @@ export async function pdfToImages(
   onProgress?.(100, "¡Archivo ZIP con todas las imágenes listo!");
   return {
     blob: zipBlob,
-    fileName: `${baseName}-imagenes.zip`,
+    fileName: `${baseName}-imagenes-${ext}.zip`,
     mimeType: "application/zip",
   };
 }

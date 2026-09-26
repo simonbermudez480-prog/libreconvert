@@ -68,11 +68,21 @@ export async function convertDocument(
   const sourceExt = (parts.pop() || "").toLowerCase();
   const cleanTarget = targetFormat.toLowerCase();
 
+  // Si el formato de origen y destino son idénticos, devolver el archivo original
+  if (sourceExt === cleanTarget) {
+    onProgress?.(100, "El archivo ya se encuentra en el formato seleccionado.");
+    return {
+      blob: file,
+      fileName: file.name,
+      mimeType: file.type || "application/octet-stream",
+    };
+  }
+
   const buffer = await file.arrayBuffer();
 
   onProgress?.(5, "Iniciando preparación del archivo...");
 
-  // 1. DOCX -> PDF
+  // 1. DOCX / DOC -> PDF
   if ((sourceExt === "docx" || sourceExt === "doc") && cleanTarget === "pdf") {
     onProgress?.(10, "Cargando motor de conversión DOCX a PDF...");
     const { docxToPdf } = await import("./docxToPdf");
@@ -84,7 +94,7 @@ export async function convertDocument(
     };
   }
 
-  // 2. PDF -> DOCX
+  // 2. PDF -> DOCX / DOC
   if (sourceExt === "pdf" && (cleanTarget === "docx" || cleanTarget === "doc")) {
     onProgress?.(10, "Cargando motor de análisis y reconstrucción Word...");
     const { pdfToDocx } = await import("./pdfToDocx");
@@ -112,7 +122,24 @@ export async function convertDocument(
     return result;
   }
 
-  // 5. PDF -> Excel (.xlsx o .csv)
+  // 5. Conversión entre formatos de Imagen (JPG <-> PNG <-> WebP)
+  if (
+    ["jpg", "jpeg", "png", "webp"].includes(sourceExt) &&
+    ["jpg", "jpeg", "png", "webp"].includes(cleanTarget)
+  ) {
+    onProgress?.(10, "Cargando transcodificador gráfico en el navegador...");
+    const { imageToImage } = await import("./imageToImage");
+    const result = await imageToImage(
+      buffer,
+      sourceExt,
+      cleanTarget === "jpeg" ? "jpg" : (cleanTarget as "jpg" | "png" | "webp"),
+      baseName,
+      onProgress
+    );
+    return result;
+  }
+
+  // 6. PDF -> Excel (.xlsx o .csv)
   if (sourceExt === "pdf" && (cleanTarget === "xlsx" || cleanTarget === "csv")) {
     onProgress?.(10, "Cargando detector de tablas y hojas de cálculo...");
     const { pdfToExcel } = await import("./pdfToExcel");
@@ -120,7 +147,23 @@ export async function convertDocument(
     return result;
   }
 
-  // 6. DOCX -> TXT
+  // 7. Excel (.xlsx / .xls) -> CSV
+  if (["xlsx", "xls"].includes(sourceExt) && cleanTarget === "csv") {
+    onProgress?.(10, "Cargando motor de hojas de cálculo...");
+    const { xlsxToCsv } = await import("./xlsxConverters");
+    const result = await xlsxToCsv(buffer, baseName, onProgress);
+    return result;
+  }
+
+  // 8. Excel (.xlsx / .xls) -> PDF
+  if (["xlsx", "xls"].includes(sourceExt) && cleanTarget === "pdf") {
+    onProgress?.(10, "Cargando motor de diseño tabular...");
+    const { xlsxToPdf } = await import("./xlsxConverters");
+    const result = await xlsxToPdf(buffer, baseName, onProgress);
+    return result;
+  }
+
+  // 9. DOCX -> TXT
   if ((sourceExt === "docx" || sourceExt === "doc") && cleanTarget === "txt") {
     onProgress?.(15, "Cargando motor de análisis de texto...");
     const mammothModule = await import("mammoth");
@@ -135,7 +178,7 @@ export async function convertDocument(
     };
   }
 
-  // 7. DOCX -> HTML
+  // 10. DOCX -> HTML
   if ((sourceExt === "docx" || sourceExt === "doc") && cleanTarget === "html") {
     onProgress?.(15, "Cargando analizador semántico...");
     const mammothModule = await import("mammoth");
@@ -166,7 +209,7 @@ export async function convertDocument(
     };
   }
 
-  // 8. PDF -> TXT
+  // 11. PDF -> TXT
   if (sourceExt === "pdf" && cleanTarget === "txt") {
     onProgress?.(20, "Leyendo páginas del PDF...");
     const { getPdfJs, getPdfJsConfig } = await import("./getPdfJs");
@@ -196,5 +239,23 @@ export async function convertDocument(
     };
   }
 
-  throw new Error(`La conversión de ${sourceExt.toUpperCase()} a ${cleanTarget.toUpperCase()} aún no está disponible.`);
+  // 12. TXT -> PDF
+  if (sourceExt === "txt" && cleanTarget === "pdf") {
+    onProgress?.(10, "Cargando formateador de texto a PDF...");
+    const { txtToPdf } = await import("./txtConverters");
+    const result = await txtToPdf(buffer, baseName, onProgress);
+    return result;
+  }
+
+  // 13. TXT -> DOCX
+  if (sourceExt === "txt" && (cleanTarget === "docx" || cleanTarget === "doc")) {
+    onProgress?.(10, "Cargando constructor de documentos Word...");
+    const { txtToDocx } = await import("./txtConverters");
+    const result = await txtToDocx(buffer, baseName, onProgress);
+    return result;
+  }
+
+  throw new Error(
+    `La conversión directa de ${sourceExt.toUpperCase()} a ${cleanTarget.toUpperCase()} no está soportada. Por favor selecciona un formato compatible.`
+  );
 }

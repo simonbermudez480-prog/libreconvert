@@ -72,7 +72,15 @@ export default function HomePage() {
           }
         );
 
-        updateFileStatus(item.id, "completed", 100, result.blob);
+        updateFileStatus(
+          item.id,
+          "completed",
+          100,
+          result.blob,
+          undefined,
+          result.fileName,
+          result.mimeType
+        );
       } catch (err: any) {
         console.error("Error al convertir:", err?.stack || err?.message || String(err));
         updateFileStatus(

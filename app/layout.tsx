@@ -114,6 +114,9 @@ export const metadata: Metadata = {
     "revisit-after": "1 days",
     "format-detection": "telephone=no",
   },
+  verification: {
+    google: "google02b17cc1b6d8e6b2",
+  },
 };
 
 export default function RootLayout({

@@ -3,6 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { Sparkles, ShieldCheck, FileText, ArrowRightLeft } from "lucide-react";
+import { ThemeToggle } from "./ThemeToggle";
 
 export function Header() {
   return (
@@ -53,9 +54,10 @@ export function Header() {
           </Link>
         </nav>
 
-        {/* Right Action / Privacy highlight */}
-        <div className="flex items-center gap-2.5">
-          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-warm-200/50 dark:bg-warm-900 border border-warm-300/50 dark:border-warm-800 text-xs font-semibold text-warm-800 dark:text-warm-200">
+        {/* Right Action / Privacy highlight & Theme */}
+        <div className="flex items-center gap-2 sm:gap-2.5">
+          <ThemeToggle />
+          <div className="hidden xs:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-warm-200/50 dark:bg-warm-900 border border-warm-300/50 dark:border-warm-800 text-xs font-semibold text-warm-800 dark:text-warm-200">
             <Sparkles className="w-3.5 h-3.5 text-brand-amber animate-pulse" />
             <span>Siempre Gratis</span>
           </div>

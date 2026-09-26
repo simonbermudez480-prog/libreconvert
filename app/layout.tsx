@@ -57,8 +57,25 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="es" className="scroll-smooth">
-      <body className="min-h-screen flex flex-col font-sans selection:bg-brand-amber/25 selection:text-brand-coral">
+    <html lang="es" className="scroll-smooth" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                var t = localStorage.getItem('theme');
+                var d = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (t === 'dark' || (!t && d)) {
+                  document.documentElement.classList.add('dark');
+                } else {
+                  document.documentElement.classList.remove('dark');
+                }
+              } catch (e) {}
+            `,
+          }}
+        />
+      </head>
+      <body className="min-h-screen flex flex-col font-sans selection:bg-brand-amber/25 selection:text-brand-coral bg-warm-50 dark:bg-[#181513] text-warm-900 dark:text-warm-100 transition-colors duration-200">
         {/* Skip to Content Accessible Link */}
         <a
           href="#main-content"

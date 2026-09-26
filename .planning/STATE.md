@@ -60,6 +60,7 @@ Progress: [██████████] 100%
 - [Phase 3]: PDF -> Imágenes 2x Retina con empaquetado ZIP multipágina; extracción de tablas a Excel con `xlsx`; utilidades PDF (Unir, Dividir, Comprimir) usando `pdf-lib` en modal interactivo.
 - [Phase 4]: Matriz maestro de 14 pares de conversión con SSG pre-renderizado, metadatos dinámicos únicos, hreflang multi-país, Schema.org estructurado, bloque GEO para IA, sitemap.xml y robots.txt amigable con GPTBot y PerplexityBot.
 - [Phase 5]: Favicon vectorial estático libre de dependencias de red, PWA Web App Manifest, soporte WCAG AAA con navegación skip-link por teclado, modo de movimiento reducido respetado y CLS = 0.
+- [Post-Launch / Visual Quality]: Protocolo Permanente de Evidencia Visual & Verificación de Contraste establecido en GEMINI.md. Se corrigió el desacoplamiento de modo oscuro (sincronización instantánea de `html.dark`, ThemeToggle con Framer Motion, eliminación de gradientes oscuros de bajo contraste en "¿Por qué LibreConvert es diferente?" y footer). Verificado mediante capturas headless 2x Retina con Microsoft Edge en modo claro y oscuro.
 
 ### Pending Todos
 

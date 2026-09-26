@@ -375,16 +375,16 @@ export default function HomePage() {
 
       {/* Human Philosophy / FAQ Preview */}
       <section className="w-full max-w-4xl mx-auto px-4 sm:px-6 py-12 sm:py-16 text-center">
-        <div className="p-8 sm:p-10 rounded-3xl bg-gradient-to-br from-warm-100/60 via-warm-50/40 to-amber-50/50 dark:from-warm-900/60 dark:to-warm-950 border border-warm-200 dark:border-warm-800">
-          <div className="w-12 h-12 rounded-2xl bg-emerald-100 dark:bg-emerald-950 flex items-center justify-center text-emerald-600 dark:text-emerald-400 mx-auto mb-4">
+        <div className="p-8 sm:p-10 rounded-3xl bg-white dark:bg-warm-900/90 border border-warm-200 dark:border-warm-700/80 shadow-warm">
+          <div className="w-12 h-12 rounded-2xl bg-emerald-100 dark:bg-emerald-950/80 border border-emerald-300/40 dark:border-emerald-700/50 flex items-center justify-center text-emerald-600 dark:text-emerald-400 mx-auto mb-4">
             <ShieldCheck className="w-6 h-6" />
           </div>
-          <h2 className="text-2xl font-bold text-warm-900 dark:text-warm-100 mb-3">
+          <h2 className="text-2xl sm:text-3xl font-black text-warm-950 dark:text-white mb-3">
             ¿Por qué LibreConvert es diferente?
           </h2>
-          <p className="text-sm sm:text-base text-warm-600 dark:text-warm-400 leading-relaxed max-w-2xl mx-auto">
+          <p className="text-sm sm:text-base text-warm-700 dark:text-warm-100 leading-relaxed max-w-2xl mx-auto font-normal">
             La gran mayoría de conversores online suben tus archivos privados a servidores lejanos para procesarlos y luego te cobran suscripciones mensuales o te bloquean tras 2 o 3 documentos.
-            En <strong>LibreConvert</strong>, los algoritmos se descargan una sola vez y corren localmente en la memoria de tu navegador: <strong>privacidad garantizada por la física del código y costo $0 para siempre.</strong>
+            En <strong className="text-warm-950 dark:text-white font-extrabold underline decoration-brand-amber/80 dark:decoration-brand-coral decoration-2">LibreConvert</strong>, los algoritmos se descargan una sola vez y corren localmente en la memoria de tu navegador: <strong className="text-warm-950 dark:text-white font-extrabold underline decoration-brand-amber/80 dark:decoration-brand-coral decoration-2">privacidad garantizada por la física del código y costo $0 para siempre.</strong>
           </p>
         </div>
       </section>

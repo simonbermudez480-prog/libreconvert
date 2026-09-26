@@ -37,7 +37,7 @@ export function TrustBadges() {
         <h2 className="text-2xl sm:text-3xl font-extrabold text-warm-900 dark:text-warm-100 tracking-tight">
           Diseñado para personas, con respeto total a tu privacidad
         </h2>
-        <p className="mt-2 text-sm sm:text-base text-warm-600 dark:text-warm-400 max-w-2xl mx-auto">
+        <p className="mt-2 text-sm sm:text-base text-warm-600 dark:text-warm-200 max-w-2xl mx-auto">
           No almacenamos, no leemos ni compartimos tus archivos. La tecnología corre directamente en tu dispositivo.
         </p>
       </div>
@@ -55,10 +55,10 @@ export function TrustBadges() {
               >
                 <Icon className="w-6 h-6" />
               </div>
-              <h3 className="text-lg font-bold text-warm-900 dark:text-warm-100 mb-2">
+              <h3 className="text-lg font-bold text-warm-900 dark:text-white mb-2">
                 {badge.title}
               </h3>
-              <p className="text-sm leading-relaxed text-warm-600 dark:text-warm-400">
+              <p className="text-sm leading-relaxed text-warm-600 dark:text-warm-200">
                 {badge.description}
               </p>
             </div>

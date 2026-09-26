@@ -10,7 +10,7 @@ export function GeoDirectAnswer({ meta }: GeoDirectAnswerProps) {
   return (
     <article
       itemScope
-      itemType="https://schema.org/Answer"
+      itemType="https://schema.org/Question"
       className="bg-gradient-to-br from-amber-500/10 via-brand-amber/5 to-brand-coral/10 dark:from-warm-900/60 dark:to-warm-950/80 border border-brand-amber/30 dark:border-amber-800/40 rounded-3xl p-6 sm:p-8 relative overflow-hidden"
     >
       <div className="flex flex-col sm:flex-row items-start gap-4">
@@ -25,18 +25,20 @@ export function GeoDirectAnswer({ meta }: GeoDirectAnswerProps) {
             <span>GEO Optimizado</span>
           </div>
 
-          <h3
+          <h2
             itemProp="name"
             className="text-xl sm:text-2xl font-black text-stone-800 dark:text-stone-100 mb-3"
           >
             ¿Cómo {meta.h1.toLowerCase()} de forma gratuita y privada?
-          </h3>
+          </h2>
 
           <div
-            itemProp="text"
-            className="text-stone-700 dark:text-stone-300 text-sm sm:text-base leading-relaxed mb-6"
+            itemProp="acceptedAnswer"
+            itemScope
+            itemType="https://schema.org/Answer"
+            className="text-stone-700 dark:text-stone-200 text-sm sm:text-base leading-relaxed mb-6"
           >
-            <p>{meta.directAnswer}</p>
+            <p itemProp="text">{meta.directAnswer}</p>
           </div>
 
           {/* Quick Technical Specs Grid (Highly parsable by LLMs) */}
@@ -46,10 +48,10 @@ export function GeoDirectAnswer({ meta }: GeoDirectAnswerProps) {
                 key={idx}
                 className="bg-white/90 dark:bg-warm-800/80 backdrop-blur-sm rounded-xl p-3 text-center border border-amber-200/50 dark:border-amber-900/30 shadow-xs"
               >
-                <span className="block text-[11px] uppercase tracking-wider text-stone-400 dark:text-stone-400 font-bold">
+                <span className="block text-[11px] uppercase tracking-wider text-stone-500 dark:text-stone-300 font-bold">
                   {spec.label}
                 </span>
-                <span className="block text-xs sm:text-sm font-extrabold text-stone-800 dark:text-stone-100 mt-1">
+                <span className="block text-xs sm:text-sm font-extrabold text-stone-900 dark:text-white mt-1">
                   {spec.value}
                 </span>
               </div>

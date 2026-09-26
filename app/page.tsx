@@ -8,6 +8,7 @@ import { FileCard } from "@/components/conversion/FileCard";
 import { CelebrationModal } from "@/components/conversion/CelebrationModal";
 import { PdfToolsModal, ToolType } from "@/components/conversion/PdfToolsModal";
 import { TrustBadges } from "@/components/ui/TrustBadges";
+import { HomeJsonLd } from "@/components/seo/HomeJsonLd";
 import { convertDocument } from "@/lib/converters";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -211,6 +212,9 @@ export default function HomePage() {
 
   return (
     <div className="flex-1 flex flex-col items-center">
+      {/* Schema.org Injections para Homepage */}
+      <HomeJsonLd />
+
       {/* Hero Section */}
       <section className="w-full max-w-5xl mx-auto px-4 sm:px-6 pt-10 sm:pt-16 pb-8 text-center">
         {/* Top pill notification */}

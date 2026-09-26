@@ -30,6 +30,20 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "LibreConvert" }],
   manifest: "/manifest.webmanifest",
+  icons: {
+    icon: "/icon.svg",
+    apple: "/icon.svg",
+  },
+  alternates: {
+    canonical: "https://libreconvert.com",
+    languages: {
+      "es-ES": "https://libreconvert.com",
+      "es-MX": "https://libreconvert.com",
+      "es-CO": "https://libreconvert.com",
+      "es-AR": "https://libreconvert.com",
+      "x-default": "https://libreconvert.com",
+    },
+  },
   openGraph: {
     title: "LibreConvert — Conversor Gratuito de Documentos",
     description:

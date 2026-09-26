@@ -24,7 +24,6 @@ import {
   Minimize2,
   RefreshCw,
 } from "lucide-react";
-import confetti from "canvas-confetti";
 
 interface DedicatedConverterProps {
   meta: ConversionMeta;
@@ -218,6 +217,8 @@ export function DedicatedConverter({ meta }: DedicatedConverterProps) {
         });
       }
 
+      const confettiModule = await import("canvas-confetti");
+      const confetti = confettiModule.default;
       confetti({
         particleCount: 80,
         spread: 70,
@@ -259,9 +260,9 @@ export function DedicatedConverter({ meta }: DedicatedConverterProps) {
                 {utilityType === "compress" && <Minimize2 className="w-3.5 h-3.5" />}
                 {meta.badge || "Herramienta Gratuita"}
               </span>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-stone-800 dark:text-stone-100 mt-2">
+              <h1 className="text-2xl sm:text-3xl font-extrabold text-stone-800 dark:text-stone-100 mt-2">
                 {meta.h1}
-              </h2>
+              </h1>
               <p className="text-stone-500 dark:text-stone-400 text-sm sm:text-base max-w-xl mx-auto mt-1">
                 {meta.subtitle}
               </p>
@@ -460,9 +461,9 @@ export function DedicatedConverter({ meta }: DedicatedConverterProps) {
                       <Sparkles className="w-3.5 h-3.5" />
                       {meta.badge || "Conversión Rápida"}
                     </span>
-                    <h2 className="text-2xl sm:text-3xl font-extrabold text-stone-800 dark:text-stone-100 mt-2">
+                    <h1 className="text-2xl sm:text-3xl font-extrabold text-stone-800 dark:text-stone-100 mt-2">
                       {meta.h1}
-                    </h2>
+                    </h1>
                     <p className="text-stone-500 dark:text-stone-400 text-sm sm:text-base max-w-xl mx-auto mt-1">
                       {meta.subtitle}
                     </p>

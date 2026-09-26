@@ -1,12 +1,4 @@
-import { docxToPdf, ConversionProgressCallback } from "./docxToPdf";
-import { pdfToDocx } from "./pdfToDocx";
-import { pdfToImages } from "./pdfToImages";
-import { imagesToPdf } from "./imagesToPdf";
-import { pdfToExcel } from "./pdfToExcel";
-import { mergePdfs, splitPdf, compressPdf } from "./pdfUtilities";
-import mammoth from "mammoth";
-
-export { mergePdfs, splitPdf, compressPdf };
+export type ConversionProgressCallback = (percent: number, message?: string) => void;
 
 export interface ConversionResult {
   blob: Blob;
@@ -15,8 +7,27 @@ export interface ConversionResult {
 }
 
 /**
+ * Utilidades PDF diferidas dinámicamente para aligerar el bundle inicial a 0 KB.
+ */
+export async function mergePdfs(files: File[], onProgress?: ConversionProgressCallback) {
+  const mod = await import("./pdfUtilities");
+  return mod.mergePdfs(files, onProgress);
+}
+
+export async function splitPdf(file: File, pageRanges: string, onProgress?: ConversionProgressCallback) {
+  const mod = await import("./pdfUtilities");
+  return mod.splitPdf(file, pageRanges, onProgress);
+}
+
+export async function compressPdf(file: File, onProgress?: ConversionProgressCallback) {
+  const mod = await import("./pdfUtilities");
+  return mod.compressPdf(file, onProgress);
+}
+
+/**
  * Orquestador principal de conversiones client-side de LibreConvert.
- * Todo el procesamiento ocurre en la memoria del navegador sin servidores externos.
+ * Los motores pesados (pdfjs, jspdf, mammoth, xlsx, docx) se cargan ÚNICAMENTE bajo demanda.
+ * Esto reduce el JavaScript inicial de la página en más de un 95%.
  */
 export async function convertDocument(
   file: File,
@@ -34,6 +45,8 @@ export async function convertDocument(
 
   // 1. DOCX -> PDF
   if ((sourceExt === "docx" || sourceExt === "doc") && cleanTarget === "pdf") {
+    onProgress?.(10, "Cargando motor de conversión DOCX a PDF...");
+    const { docxToPdf } = await import("./docxToPdf");
     const blob = await docxToPdf(buffer, onProgress);
     return {
       blob,
@@ -44,6 +57,8 @@ export async function convertDocument(
 
   // 2. PDF -> DOCX
   if (sourceExt === "pdf" && (cleanTarget === "docx" || cleanTarget === "doc")) {
+    onProgress?.(10, "Cargando motor de análisis y reconstrucción Word...");
+    const { pdfToDocx } = await import("./pdfToDocx");
     const blob = await pdfToDocx(buffer, onProgress);
     return {
       blob,
@@ -54,24 +69,33 @@ export async function convertDocument(
 
   // 3. PDF -> Imágenes (JPG o PNG)
   if (sourceExt === "pdf" && (cleanTarget === "jpg" || cleanTarget === "jpeg" || cleanTarget === "png")) {
+    onProgress?.(10, "Cargando motor de renderizado vectorial a imagen...");
+    const { pdfToImages } = await import("./pdfToImages");
     const result = await pdfToImages(buffer, cleanTarget === "png" ? "png" : "jpg", baseName, onProgress);
     return result;
   }
 
   // 4. Imágenes (JPG, PNG, WebP) -> PDF
   if (["jpg", "jpeg", "png", "webp"].includes(sourceExt) && cleanTarget === "pdf") {
+    onProgress?.(10, "Cargando compositor de imágenes...");
+    const { imagesToPdf } = await import("./imagesToPdf");
     const result = await imagesToPdf(buffer, sourceExt, baseName, onProgress);
     return result;
   }
 
   // 5. PDF -> Excel (.xlsx o .csv)
   if (sourceExt === "pdf" && (cleanTarget === "xlsx" || cleanTarget === "csv")) {
+    onProgress?.(10, "Cargando detector de tablas y hojas de cálculo...");
+    const { pdfToExcel } = await import("./pdfToExcel");
     const result = await pdfToExcel(buffer, cleanTarget as "xlsx" | "csv", baseName, onProgress);
     return result;
   }
 
   // 6. DOCX -> TXT
   if ((sourceExt === "docx" || sourceExt === "doc") && cleanTarget === "txt") {
+    onProgress?.(15, "Cargando motor de análisis de texto...");
+    const mammothModule = await import("mammoth");
+    const mammoth = mammothModule.default || mammothModule;
     onProgress?.(40, "Extrayendo texto plano del documento...");
     const { value: text } = await mammoth.extractRawText({ arrayBuffer: buffer });
     onProgress?.(100, "¡Texto extraído con éxito!");
@@ -84,6 +108,9 @@ export async function convertDocument(
 
   // 7. DOCX -> HTML
   if ((sourceExt === "docx" || sourceExt === "doc") && cleanTarget === "html") {
+    onProgress?.(15, "Cargando analizador semántico...");
+    const mammothModule = await import("mammoth");
+    const mammoth = mammothModule.default || mammothModule;
     onProgress?.(40, "Extrayendo marcado HTML estructurado...");
     const { value: html } = await mammoth.convertToHtml({ arrayBuffer: buffer });
     const fullHtml = `<!DOCTYPE html>

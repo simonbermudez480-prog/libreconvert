@@ -24,10 +24,8 @@ export async function pdfToExcel(
 ): Promise<ExcelConversionResult> {
   onProgress?.(10, "Iniciando análisis de tablas y datos en el PDF...");
 
-  const pdfjsLib = await import("pdfjs-dist");
-  if (typeof window !== "undefined" && !pdfjsLib.GlobalWorkerOptions.workerSrc) {
-    pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjsLib.version}/build/pdf.worker.min.mjs`;
-  }
+  const { getPdfJs } = await import("./getPdfJs");
+  const pdfjsLib = await getPdfJs();
 
   const loadingTask = pdfjsLib.getDocument({
     data: new Uint8Array(fileBuffer),

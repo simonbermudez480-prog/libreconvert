@@ -22,13 +22,9 @@ export async function pdfToDocx(
 ): Promise<Blob> {
   onProgress?.(10, "Iniciando lectura de páginas del PDF...");
 
-  // Importación dinámica de PDF.js para compatibilidad total con Next.js y el navegador
-  const pdfjsLib = await import("pdfjs-dist");
-
-  // Configurar worker de PDF.js para decodificación eficiente en cliente
-  if (typeof window !== "undefined" && !pdfjsLib.GlobalWorkerOptions.workerSrc) {
-    pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjsLib.version}/build/pdf.worker.min.mjs`;
-  }
+  // Carga segura y desacoplada de PDF.js (sin bug de Webpack 5)
+  const { getPdfJs } = await import("./getPdfJs");
+  const pdfjsLib = await getPdfJs();
 
   const loadingTask = pdfjsLib.getDocument({
     data: new Uint8Array(fileBuffer),

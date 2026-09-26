@@ -19,10 +19,8 @@ export async function pdfToImages(
 ): Promise<ImageConversionResult> {
   onProgress?.(10, "Cargando páginas del PDF para renderizado de alta nitidez...");
 
-  const pdfjsLib = await import("pdfjs-dist");
-  if (typeof window !== "undefined" && !pdfjsLib.GlobalWorkerOptions.workerSrc) {
-    pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjsLib.version}/build/pdf.worker.min.mjs`;
-  }
+  const { getPdfJs } = await import("./getPdfJs");
+  const pdfjsLib = await getPdfJs();
 
   const loadingTask = pdfjsLib.getDocument({
     data: new Uint8Array(fileBuffer),

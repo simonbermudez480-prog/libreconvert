@@ -140,10 +140,8 @@ export async function convertDocument(
   // 8. PDF -> TXT
   if (sourceExt === "pdf" && cleanTarget === "txt") {
     onProgress?.(20, "Leyendo páginas del PDF...");
-    const pdfjsLib = await import("pdfjs-dist");
-    if (typeof window !== "undefined" && !pdfjsLib.GlobalWorkerOptions.workerSrc) {
-      pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjsLib.version}/build/pdf.worker.min.mjs`;
-    }
+    const { getPdfJs } = await import("./getPdfJs");
+    const pdfjsLib = await getPdfJs();
 
     const doc = await pdfjsLib.getDocument({ data: new Uint8Array(buffer) }).promise;
     let fullText = "";

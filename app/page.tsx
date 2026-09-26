@@ -271,12 +271,11 @@ export default function HomePage() {
 
         {/* Interactive Dropzone & File Management Section */}
         <div id="conversor" className="mt-8 sm:mt-10 w-full max-w-3xl mx-auto">
-          <AnimatePresence>
-            {showCelebration && allCompleted ? (
-              <CelebrationModal completedFiles={completedFiles} onReset={handleReset} />
-            ) : (
-              <>
-                <Dropzone
+          {showCelebration && allCompleted ? (
+            <CelebrationModal completedFiles={completedFiles} onReset={handleReset} />
+          ) : (
+            <div className="w-full">
+              <Dropzone
                   onFilesAdded={addFiles}
                   isDragging={isDragging}
                   setIsDragging={setIsDragging}
@@ -344,9 +343,8 @@ export default function HomePage() {
                     </motion.div>
                   )}
                 </AnimatePresence>
-              </>
+              </div>
             )}
-          </AnimatePresence>
         </div>
       </section>
 

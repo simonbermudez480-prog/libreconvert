@@ -86,7 +86,7 @@ export function Footer() {
 
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-warm-200 dark:border-warm-800/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-warm-600 dark:text-warm-400">
-          <p>© {new Date().getFullYear()} LibreConvert. Todos los derechos liberados para la comunidad.</p>
+          <p suppressHydrationWarning>© {new Date().getFullYear()} LibreConvert. Todos los derechos liberados para la comunidad.</p>
           <p className="flex items-center gap-1">
             Creado con <Heart className="w-3.5 h-3.5 text-rose-500 fill-rose-500" /> para un internet más útil y respetuoso.
           </p>

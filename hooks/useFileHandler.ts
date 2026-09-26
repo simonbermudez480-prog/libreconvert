@@ -15,6 +15,7 @@ export interface ManagedFile {
   resultUrl?: string;
   resultFileName?: string;
   resultMimeType?: string;
+  pagesCount?: number;
   error?: string;
 }
 
@@ -166,7 +167,8 @@ export function useFileHandler() {
       resultBlob?: Blob,
       error?: string,
       resultFileName?: string,
-      resultMimeType?: string
+      resultMimeType?: string,
+      pagesCount?: number
     ) => {
       setFiles((prev) =>
         prev.map((f) => {
@@ -180,6 +182,7 @@ export function useFileHandler() {
             resultUrl,
             resultFileName: resultFileName || f.resultFileName,
             resultMimeType: resultMimeType || f.resultMimeType,
+            pagesCount: pagesCount !== undefined ? pagesCount : f.pagesCount,
             error,
           };
         })

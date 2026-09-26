@@ -79,7 +79,8 @@ export default function HomePage() {
           result.blob,
           undefined,
           result.fileName,
-          result.mimeType
+          result.mimeType,
+          result.pagesCount
         );
       } catch (err: any) {
         console.error("Error al convertir:", err?.stack || err?.message || String(err));

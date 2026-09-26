@@ -4,6 +4,7 @@ import React, { useEffect } from "react";
 import confetti from "canvas-confetti";
 import { ManagedFile } from "@/hooks/useFileHandler";
 import { formatFileSize } from "@/lib/utils";
+import { getCleanDownloadInfo } from "@/lib/utils/downloadHelper";
 import { Download, Sparkles, RefreshCw, CheckCircle2, FileText } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -86,11 +87,9 @@ export function CelebrationModal({ completedFiles, onReset }: CelebrationModalPr
       {/* Files List */}
       <div className="mt-6 space-y-3 max-w-xl mx-auto text-left">
         {completedFiles.map((file) => {
-          const downloadName = file.resultFileName
-            ? (file.resultFileName.startsWith("libreconvert-") ? file.resultFileName : `libreconvert-${file.resultFileName}`)
-            : `libreconvert-${file.name.replace(/\.[^/.]+$/, "")}.${file.targetFormat}`;
-          const isZip = downloadName.endsWith(".zip");
-          const formatDisplay = isZip ? `ZIP (${file.targetFormat.toUpperCase()})` : file.targetFormat;
+          const { downloadName, isZip, formatLabel, pagesCount } = getCleanDownloadInfo(file);
+          const targetExt = (file.targetFormat || "jpg").toUpperCase();
+
           return (
             <div
               key={file.id}
@@ -99,14 +98,18 @@ export function CelebrationModal({ completedFiles, onReset }: CelebrationModalPr
               <div className="flex items-center justify-between gap-3">
                 <div className="flex items-center gap-3 min-w-0">
                   <div className="w-10 h-10 rounded-xl bg-warm-100 dark:bg-warm-800 flex items-center justify-center shrink-0 text-brand-coral">
-                    <FileText className="w-5 h-5" />
+                    {isZip ? <span className="text-xl">📦</span> : <FileText className="w-5 h-5" />}
                   </div>
                   <div className="min-w-0">
                     <p className="text-sm font-bold text-warm-900 dark:text-warm-100 truncate" title={downloadName}>
                       {downloadName}
                     </p>
                     <p className="text-xs text-warm-500">
-                      {formatFileSize(file.resultBlob?.size || file.size)} • Formato: <span className="uppercase font-semibold text-emerald-600 dark:text-emerald-400">{formatDisplay}</span>
+                      {formatFileSize(file.resultBlob?.size || file.size)} • Formato:{" "}
+                      <span className="uppercase font-semibold text-emerald-600 dark:text-emerald-400">
+                        {formatLabel}
+                      </span>
+                      {pagesCount ? ` (${pagesCount} páginas)` : ""}
                     </p>
                   </div>
                 </div>
@@ -116,21 +119,26 @@ export function CelebrationModal({ completedFiles, onReset }: CelebrationModalPr
                     <a
                       href={file.resultUrl}
                       download={downloadName}
-                      className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white text-xs sm:text-sm font-bold shadow-sm hover:scale-105 active:scale-95 transition-all"
+                      className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white text-xs sm:text-sm font-bold shadow-sm hover:scale-105 active:scale-95 transition-all"
                     >
                       <Download className="w-4 h-4" />
-                      <span>Descargar {isZip ? "ZIP de Imágenes" : ""}</span>
+                      <span>{isZip ? `Descargar ZIP (${targetExt})` : `Descargar ${targetExt}`}</span>
                     </a>
                   )}
                 </div>
               </div>
 
               {isZip && (
-                <div className="mt-3 text-[11px] text-amber-700 dark:text-amber-300/90 bg-amber-500/10 border border-amber-500/20 rounded-xl px-3 py-1.5 flex items-center gap-2">
-                  <span className="text-sm">📦</span>
-                  <span>
-                    <strong>Documento multi-página:</strong> Se han renderizado todas las páginas en alta resolución dentro de este archivo ZIP. Al descargarlo, Windows lo abre automáticamente para que veas todas tus fotos.
-                  </span>
+                <div className="mt-3 text-xs text-stone-700 dark:text-stone-300 bg-amber-500/10 border border-amber-500/25 rounded-xl p-3 flex flex-col gap-1.5">
+                  <div className="flex items-center gap-1.5 font-bold text-amber-800 dark:text-amber-300">
+                    <span>💡 ¿Cómo abrir este archivo en Windows?</span>
+                  </div>
+                  <p className="text-[11px] leading-relaxed text-stone-600 dark:text-stone-300">
+                    Tu documento contenía <strong>{pagesCount || "múltiples"} páginas</strong>. Cada página se convirtió en una imagen <strong>{targetExt}</strong> de alta resolución y se empaquetó en una carpeta comprimida <strong>.ZIP</strong> para que las recibas todas juntas.
+                  </p>
+                  <p className="text-[11px] font-medium text-stone-600 dark:text-stone-400">
+                    ➡️ En Windows: Haz <strong>doble clic</strong> en el archivo descargado para ver tus fotos, o haz <strong>clic derecho &gt; "Extraer todo"</strong>.
+                  </p>
                 </div>
               )}
             </div>
@@ -146,9 +154,7 @@ export function CelebrationModal({ completedFiles, onReset }: CelebrationModalPr
             onClick={() => {
               completedFiles.forEach((file) => {
                 if (file.resultUrl) {
-                  const downloadName = file.resultFileName
-                    ? (file.resultFileName.startsWith("libreconvert-") ? file.resultFileName : `libreconvert-${file.resultFileName}`)
-                    : `libreconvert-${file.name.replace(/\.[^/.]+$/, "")}.${file.targetFormat}`;
+                  const { downloadName } = getCleanDownloadInfo(file);
                   const a = document.createElement("a");
                   a.href = file.resultUrl;
                   a.download = downloadName;

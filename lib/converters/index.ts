@@ -4,6 +4,7 @@ export interface ConversionResult {
   blob: Blob;
   fileName: string;
   mimeType: string;
+  pagesCount?: number;
 }
 
 /**

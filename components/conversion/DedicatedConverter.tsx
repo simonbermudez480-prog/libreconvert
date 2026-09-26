@@ -67,6 +67,16 @@ export function DedicatedConverter({ meta }: DedicatedConverterProps) {
     addFiles(incoming);
   };
 
+  React.useEffect(() => {
+    if (meta.defaultTarget && files.length > 0) {
+      files.forEach((f) => {
+        if (f.targetFormat !== meta.defaultTarget) {
+          setTargetFormat(f.id, meta.defaultTarget);
+        }
+      });
+    }
+  }, [files, meta.defaultTarget, setTargetFormat]);
+
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
     setIsDragging(true);
@@ -121,7 +131,8 @@ export function DedicatedConverter({ meta }: DedicatedConverterProps) {
           result.blob,
           undefined,
           result.fileName,
-          result.mimeType
+          result.mimeType,
+          result.pagesCount
         );
       } catch (err: any) {
         console.error("Error al convertir:", err);

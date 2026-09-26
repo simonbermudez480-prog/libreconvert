@@ -87,6 +87,7 @@ export async function pdfToImages(
       blob: pageBlobs[0].blob,
       fileName: `${baseName}.${ext}`,
       mimeType,
+      pagesCount: 1,
     };
   }
 
@@ -99,14 +100,16 @@ export async function pdfToImages(
 
   const zipBlob = await zip.generateAsync({
     type: "blob",
+    mimeType: "application/zip",
     compression: "DEFLATE",
     compressionOptions: { level: 6 },
   });
 
-  onProgress?.(100, "¡Archivo ZIP con todas las imágenes listo!");
+  onProgress?.(100, `¡Archivo ZIP con las ${numPages} imágenes listo!`);
   return {
     blob: zipBlob,
     fileName: `${baseName}-imagenes-${ext}.zip`,
     mimeType: "application/zip",
+    pagesCount: numPages,
   };
 }

@@ -5,6 +5,7 @@ import { ManagedFile } from "@/hooks/useFileHandler";
 import { FormatSelector } from "./FormatSelector";
 import { ConversionProgress } from "./ConversionProgress";
 import { formatFileSize } from "@/lib/utils";
+import { getCleanDownloadInfo } from "@/lib/utils/downloadHelper";
 import {
   FileText,
   Image as ImageIcon,
@@ -28,14 +29,11 @@ export function FileCard({
   onRemove,
   onFormatChange,
 }: FileCardProps) {
-  const { id, name, size, ext, targetFormat, status, progress, resultUrl, resultFileName, error } =
+  const { id, name, size, ext, targetFormat, status, progress, resultUrl, error } =
     managedFile;
 
-  const downloadName = resultFileName
-    ? (resultFileName.startsWith("libreconvert-") ? resultFileName : `libreconvert-${resultFileName}`)
-    : `libreconvert-${name.replace(/\.[^/.]+$/, "")}.${targetFormat}`;
-
-  const isZip = downloadName.endsWith(".zip");
+  const { downloadName, isZip, formatLabel, pagesCount } = getCleanDownloadInfo(managedFile);
+  const targetExt = (targetFormat || "jpg").toUpperCase();
 
   const getFileIcon = (fileExt: string) => {
     switch (fileExt.toLowerCase()) {
@@ -104,7 +102,7 @@ export function FileCard({
                 title={downloadName}
               >
                 <Download className="w-4 h-4" />
-                <span>Descargar {isZip ? "ZIP de Imágenes" : ""}</span>
+                <span>{isZip ? `Descargar ZIP (${targetExt})` : `Descargar ${targetExt}`}</span>
               </a>
             </div>
           )}

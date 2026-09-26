@@ -62,6 +62,7 @@ Progress: [██████████] 100%
 - [Phase 5]: Favicon vectorial estático libre de dependencias de red, PWA Web App Manifest, soporte WCAG AAA con navegación skip-link por teclado, modo de movimiento reducido respetado y CLS = 0.
 - [Post-Launch / Visual Quality]: Protocolo Permanente de Evidencia Visual & Verificación de Contraste establecido en GEMINI.md. Se corrigió el desacoplamiento de modo oscuro (sincronización instantánea de `html.dark`, ThemeToggle con Framer Motion, eliminación de gradientes oscuros de bajo contraste en "¿Por qué LibreConvert es diferente?" y footer). Verificado mediante capturas headless 2x Retina con Microsoft Edge en modo claro y oscuro.
 - [Post-Launch / Performance & SEO Audit]: Auditoría integral automatizada con Edge headless (`scripts/audit-performance.mjs`). Se resolvió la falta de `<h1>` en páginas de conversión, se inyectaron esquemas JSON-LD completos en homepage, y se dividieron dinámicamente todos los motores de conversión, reduciendo el FCP en un 90% (de 3.24s a 328ms).
+- [Post-Launch / Domain & Canonical Realignment]: Se identificó y resolvió el motivo crítico por el cual la web no rankeaba en Google: las canónicas, sitemaps, robots.txt y schemas apuntaban a un dominio inactivo (libreconvert.com), causando que Google excluyera libreconvert.vercel.app. Se realineó el 100% de la arquitectura canónica a https://libreconvert.vercel.app, se limpiaron los hreflang a es y x-default, se eliminaron ratings ficticios y esquemas duplicados. Desplegado y verificado en vivo.
 
 ### Pending Todos
 

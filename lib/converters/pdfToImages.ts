@@ -5,6 +5,7 @@ export interface ImageConversionResult {
   blob: Blob;
   fileName: string;
   mimeType: string;
+  pagesCount?: number;
 }
 
 /**

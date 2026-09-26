@@ -9,18 +9,35 @@ export default function robots(): MetadataRoute.Robots {
       },
       {
         userAgent: [
+          // Google
           "Googlebot",
+          "Googlebot-Image",
+          "Google-Extended",
+          // Microsoft Bing & Copilot
           "Bingbot",
+          "msnbot",
+          // OpenAI ChatGPT & SearchGPT
           "GPTBot",
           "ChatGPT-User",
-          "PerplexityBot",
+          "OAI-SearchBot",
+          // Anthropic Claude
           "ClaudeBot",
-          "Google-Extended",
+          "Claude-Web",
+          // Perplexity AI
+          "PerplexityBot",
+          // Apple
           "Applebot",
+          "Applebot-Extended",
+          // Global Regional Search Engines
+          "Baiduspider",
+          "YandexBot",
+          "DuckDuckBot",
+          "CCBot",
         ],
         allow: "/",
       },
     ],
     sitemap: "https://libreconvert.com/sitemap.xml",
+    host: "https://libreconvert.com",
   };
 }

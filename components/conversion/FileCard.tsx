@@ -104,7 +104,7 @@ export function FileCard({
                 title={downloadName}
               >
                 <Download className="w-4 h-4" />
-                <span>Descargar {isZip ? "ZIP" : ""}</span>
+                <span>Descargar {isZip ? "ZIP de Imágenes" : ""}</span>
               </a>
             </div>
           )}

@@ -94,31 +94,44 @@ export function CelebrationModal({ completedFiles, onReset }: CelebrationModalPr
           return (
             <div
               key={file.id}
-              className="p-4 rounded-2xl bg-white dark:bg-warm-900 border border-warm-200 dark:border-warm-800 flex items-center justify-between gap-3 shadow-sm hover:border-emerald-400/60 transition-colors"
+              className="p-4 rounded-2xl bg-white dark:bg-warm-900 border border-warm-200 dark:border-warm-800 shadow-sm hover:border-emerald-400/60 transition-colors"
             >
-              <div className="flex items-center gap-3 min-w-0">
-                <div className="w-10 h-10 rounded-xl bg-warm-100 dark:bg-warm-800 flex items-center justify-center shrink-0 text-brand-coral">
-                  <FileText className="w-5 h-5" />
+              <div className="flex items-center justify-between gap-3">
+                <div className="flex items-center gap-3 min-w-0">
+                  <div className="w-10 h-10 rounded-xl bg-warm-100 dark:bg-warm-800 flex items-center justify-center shrink-0 text-brand-coral">
+                    <FileText className="w-5 h-5" />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-sm font-bold text-warm-900 dark:text-warm-100 truncate" title={downloadName}>
+                      {downloadName}
+                    </p>
+                    <p className="text-xs text-warm-500">
+                      {formatFileSize(file.resultBlob?.size || file.size)} • Formato: <span className="uppercase font-semibold text-emerald-600 dark:text-emerald-400">{formatDisplay}</span>
+                    </p>
+                  </div>
                 </div>
-                <div className="min-w-0">
-                  <p className="text-sm font-bold text-warm-900 dark:text-warm-100 truncate" title={downloadName}>
-                    {downloadName}
-                  </p>
-                  <p className="text-xs text-warm-500">
-                    {formatFileSize(file.resultBlob?.size || file.size)} • Formato: <span className="uppercase font-semibold text-emerald-600 dark:text-emerald-400">{formatDisplay}</span>
-                  </p>
+
+                <div className="flex flex-col items-end gap-1.5 shrink-0">
+                  {file.resultUrl && (
+                    <a
+                      href={file.resultUrl}
+                      download={downloadName}
+                      className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white text-xs sm:text-sm font-bold shadow-sm hover:scale-105 active:scale-95 transition-all"
+                    >
+                      <Download className="w-4 h-4" />
+                      <span>Descargar {isZip ? "ZIP de Imágenes" : ""}</span>
+                    </a>
+                  )}
                 </div>
               </div>
 
-              {file.resultUrl && (
-                <a
-                  href={file.resultUrl}
-                  download={downloadName}
-                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white text-xs sm:text-sm font-bold shadow-sm hover:scale-105 active:scale-95 transition-all shrink-0"
-                >
-                  <Download className="w-4 h-4" />
-                  <span>Descargar</span>
-                </a>
+              {isZip && (
+                <div className="mt-3 text-[11px] text-amber-700 dark:text-amber-300/90 bg-amber-500/10 border border-amber-500/20 rounded-xl px-3 py-1.5 flex items-center gap-2">
+                  <span className="text-sm">📦</span>
+                  <span>
+                    <strong>Documento multi-página:</strong> Se han renderizado todas las páginas en alta resolución dentro de este archivo ZIP. Al descargarlo, Windows lo abre automáticamente para que veas todas tus fotos.
+                  </span>
+                </div>
               )}
             </div>
           );

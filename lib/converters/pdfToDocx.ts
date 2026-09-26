@@ -13,6 +13,15 @@ interface TextItemData {
 }
 
 /**
+ * Elimina caracteres de control ilegales en la especificación XML 1.0 (WordprocessingML).
+ * Evita fallos críticos de serialización durante Packer.toBlob().
+ */
+function cleanXmlString(str: string): string {
+  if (!str) return "";
+  return str.replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\uFFFD\uFFFE\uFFFF]/g, "");
+}
+
+/**
  * Convierte un documento PDF en un archivo Word (.docx) editable directamente en el cliente.
  * Extrae texto, calcula jerarquías tipográficas, agrupa párrafos y preserva la paginación.
  */
@@ -23,13 +32,10 @@ export async function pdfToDocx(
   onProgress?.(10, "Iniciando lectura de páginas del PDF...");
 
   // Carga segura y desacoplada de PDF.js (sin bug de Webpack 5)
-  const { getPdfJs } = await import("./getPdfJs");
+  const { getPdfJs, getPdfJsConfig } = await import("./getPdfJs");
   const pdfjsLib = await getPdfJs();
 
-  const loadingTask = pdfjsLib.getDocument({
-    data: new Uint8Array(fileBuffer),
-    useSystemFonts: true,
-  });
+  const loadingTask = pdfjsLib.getDocument(getPdfJsConfig(fileBuffer));
 
   const pdfDoc = await loadingTask.promise;
   const numPages = pdfDoc.numPages;
@@ -42,115 +48,133 @@ export async function pdfToDocx(
     const progressPercent = 25 + Math.round((pageNum / numPages) * 55);
     onProgress?.(progressPercent, `Extrayendo texto y estructura de página ${pageNum} de ${numPages}...`);
 
-    const page = await pdfDoc.getPage(pageNum);
-    const textContent = await page.getTextContent();
+    try {
+      const page = await pdfDoc.getPage(pageNum);
+      const textContent = await page.getTextContent();
 
-    // Si no es la primera página, añadir salto de página en Word
-    if (pageNum > 1) {
-      docxChildren.push(
-        new Paragraph({
-          children: [new PageBreak()],
-        })
-      );
-    }
+      // Si no es la primera página, añadir salto de página en Word
+      if (pageNum > 1) {
+        docxChildren.push(
+          new Paragraph({
+            children: [new PageBreak()],
+          })
+        );
+      }
 
-    const items: TextItemData[] = [];
-    for (const item of textContent.items) {
-      if ("str" in item && item.str.trim().length > 0) {
-        const tx = item.transform; // [scaleX, skewY, skewX, scaleY, transX, transY]
-        items.push({
-          str: item.str,
-          x: tx[4],
-          y: tx[5],
-          height: item.height || Math.abs(tx[3]) || 12,
-          hasEOL: item.hasEOL,
+      const items: TextItemData[] = [];
+      for (const item of textContent.items) {
+        if ("str" in item && typeof item.str === "string") {
+          const cleanStr = cleanXmlString(item.str);
+          if (cleanStr.trim().length > 0) {
+            const tx = item.transform; // [scaleX, skewY, skewX, scaleY, transX, transY]
+            items.push({
+              str: cleanStr,
+              x: tx ? tx[4] : 0,
+              y: tx ? tx[5] : 0,
+              height: item.height || (tx ? Math.abs(tx[3]) : 12) || 12,
+              hasEOL: item.hasEOL,
+            });
+          }
+        }
+      }
+
+      // Ordenar elementos visualmente: de arriba hacia abajo (Y descendente) y de izquierda a derecha (X ascendente)
+      items.sort((a, b) => {
+        const yDiff = b.y - a.y;
+        if (Math.abs(yDiff) > 6) {
+          return yDiff;
+        }
+        return a.x - b.x;
+      });
+
+      // Agrupar elementos en líneas coherentes
+      const lines: { text: string; height: number }[] = [];
+      let currentLineText = "";
+      let currentLineY: number | null = null;
+      let currentLineHeight = 12;
+
+      for (const item of items) {
+        if (currentLineY === null) {
+          currentLineY = item.y;
+          currentLineText = item.str;
+          currentLineHeight = item.height;
+        } else if (Math.abs(item.y - currentLineY) <= 6) {
+          // Mismo renglón
+          currentLineText += " " + item.str;
+          if (item.height > currentLineHeight) currentLineHeight = item.height;
+        } else {
+          // Nuevo renglón
+          if (currentLineText.trim().length > 0) {
+            lines.push({
+              text: currentLineText.trim(),
+              height: currentLineHeight,
+            });
+          }
+          currentLineY = item.y;
+          currentLineText = item.str;
+          currentLineHeight = item.height;
+        }
+      }
+
+      if (currentLineText.trim().length > 0) {
+        lines.push({
+          text: currentLineText.trim(),
+          height: currentLineHeight,
         });
       }
-    }
 
-    // Ordenar elementos visualmente: de arriba hacia abajo (Y descendente) y de izquierda a derecha (X ascendente)
-    items.sort((a, b) => {
-      const yDiff = b.y - a.y;
-      if (Math.abs(yDiff) > 6) {
-        return yDiff;
-      }
-      return a.x - b.x;
-    });
-
-    // Agrupar elementos en líneas coherentes
-    const lines: { text: string; height: number }[] = [];
-    let currentLineText = "";
-    let currentLineY: number | null = null;
-    let currentLineHeight = 12;
-
-    for (const item of items) {
-      if (currentLineY === null) {
-        currentLineY = item.y;
-        currentLineText = item.str;
-        currentLineHeight = item.height;
-      } else if (Math.abs(item.y - currentLineY) <= 6) {
-        // Mismo renglón
-        currentLineText += " " + item.str;
-        if (item.height > currentLineHeight) currentLineHeight = item.height;
+      // Convertir líneas en párrafos DOCX con detección de encabezados
+      if (lines.length === 0) {
+        docxChildren.push(
+          new Paragraph({
+            children: [
+              new TextRun({
+                text: `[Página ${pageNum} sin texto seleccionable]`,
+                italics: true,
+                color: "888888",
+              }),
+            ],
+          })
+        );
       } else {
-        // Nuevo renglón
-        if (currentLineText.trim().length > 0) {
-          lines.push({
-            text: currentLineText.trim(),
-            height: currentLineHeight,
-          });
+        for (const line of lines) {
+          const isHeading = line.height > 16;
+          const isSubheading = line.height > 13 && line.height <= 16;
+
+          docxChildren.push(
+            new Paragraph({
+              heading: isHeading
+                ? HeadingLevel.HEADING_1
+                : isSubheading
+                ? HeadingLevel.HEADING_2
+                : undefined,
+              spacing: {
+                after: isHeading ? 160 : isSubheading ? 120 : 80,
+              },
+              children: [
+                new TextRun({
+                  text: line.text,
+                  bold: isHeading || isSubheading,
+                  size: Math.round(line.height * 2), // Half-points en docx
+                }),
+              ],
+            })
+          );
         }
-        currentLineY = item.y;
-        currentLineText = item.str;
-        currentLineHeight = item.height;
       }
-    }
-
-    if (currentLineText.trim().length > 0) {
-      lines.push({
-        text: currentLineText.trim(),
-        height: currentLineHeight,
-      });
-    }
-
-    // Convertir líneas en párrafos DOCX con detección de encabezados
-    if (lines.length === 0) {
+    } catch (pageError) {
+      console.warn(`Aviso al procesar página ${pageNum} del PDF:`, pageError);
       docxChildren.push(
         new Paragraph({
           children: [
             new TextRun({
-              text: `[Página ${pageNum} sin texto seleccionable]`,
+              text: `[Nota: No se pudo extraer el texto de la página ${pageNum}]`,
               italics: true,
               color: "888888",
             }),
           ],
         })
       );
-    } else {
-      for (const line of lines) {
-        const isHeading = line.height > 16;
-        const isSubheading = line.height > 13 && line.height <= 16;
-
-        docxChildren.push(
-          new Paragraph({
-            heading: isHeading
-              ? HeadingLevel.HEADING_1
-              : isSubheading
-              ? HeadingLevel.HEADING_2
-              : undefined,
-            spacing: {
-              after: isHeading ? 160 : isSubheading ? 120 : 80,
-            },
-            children: [
-              new TextRun({
-                text: line.text,
-                bold: isHeading || isSubheading,
-                size: Math.round(line.height * 2), // Half-points en docx
-              }),
-            ],
-          })
-        );
-      }
     }
   }
 

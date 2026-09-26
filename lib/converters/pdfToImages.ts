@@ -19,12 +19,10 @@ export async function pdfToImages(
 ): Promise<ImageConversionResult> {
   onProgress?.(10, "Cargando páginas del PDF para renderizado de alta nitidez...");
 
-  const { getPdfJs } = await import("./getPdfJs");
+  const { getPdfJs, getPdfJsConfig } = await import("./getPdfJs");
   const pdfjsLib = await getPdfJs();
 
-  const loadingTask = pdfjsLib.getDocument({
-    data: new Uint8Array(fileBuffer),
-  });
+  const loadingTask = pdfjsLib.getDocument(getPdfJsConfig(fileBuffer));
 
   const pdfDoc = await loadingTask.promise;
   const numPages = pdfDoc.numPages;

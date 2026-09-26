@@ -24,12 +24,10 @@ export async function pdfToExcel(
 ): Promise<ExcelConversionResult> {
   onProgress?.(10, "Iniciando análisis de tablas y datos en el PDF...");
 
-  const { getPdfJs } = await import("./getPdfJs");
+  const { getPdfJs, getPdfJsConfig } = await import("./getPdfJs");
   const pdfjsLib = await getPdfJs();
 
-  const loadingTask = pdfjsLib.getDocument({
-    data: new Uint8Array(fileBuffer),
-  });
+  const loadingTask = pdfjsLib.getDocument(getPdfJsConfig(fileBuffer));
 
   const pdfDoc = await loadingTask.promise;
   const numPages = pdfDoc.numPages;

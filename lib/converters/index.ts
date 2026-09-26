@@ -11,17 +11,46 @@ export interface ConversionResult {
  */
 export async function mergePdfs(files: File[], onProgress?: ConversionProgressCallback) {
   const mod = await import("./pdfUtilities");
-  return mod.mergePdfs(files, onProgress);
+  const buffers = await Promise.all(files.map((f) => f.arrayBuffer()));
+  return mod.mergePdfs(buffers, "documentos-unidos.pdf", onProgress);
 }
 
 export async function splitPdf(file: File, pageRanges: string, onProgress?: ConversionProgressCallback) {
   const mod = await import("./pdfUtilities");
-  return mod.splitPdf(file, pageRanges, onProgress);
+  const buffer = await file.arrayBuffer();
+  const pages: number[] = [];
+  const parts = pageRanges.split(",");
+  for (const part of parts) {
+    const range = part.trim().split("-");
+    if (range.length === 2) {
+      const start = parseInt(range[0], 10);
+      const end = parseInt(range[1], 10);
+      if (!isNaN(start) && !isNaN(end)) {
+        for (let p = Math.min(start, end); p <= Math.max(start, end); p++) {
+          pages.push(p);
+        }
+      }
+    } else {
+      const single = parseInt(part.trim(), 10);
+      if (!isNaN(single)) pages.push(single);
+    }
+  }
+  return mod.splitPdf(
+    buffer,
+    pages.length > 0 ? pages : [1],
+    `${file.name.replace(/\.[^/.]+$/, "")}-extraido.pdf`,
+    onProgress
+  );
 }
 
 export async function compressPdf(file: File, onProgress?: ConversionProgressCallback) {
   const mod = await import("./pdfUtilities");
-  return mod.compressPdf(file, onProgress);
+  const buffer = await file.arrayBuffer();
+  return mod.compressPdf(
+    buffer,
+    `${file.name.replace(/\.[^/.]+$/, "")}-comprimido.pdf`,
+    onProgress
+  );
 }
 
 /**
@@ -140,10 +169,10 @@ export async function convertDocument(
   // 8. PDF -> TXT
   if (sourceExt === "pdf" && cleanTarget === "txt") {
     onProgress?.(20, "Leyendo páginas del PDF...");
-    const { getPdfJs } = await import("./getPdfJs");
+    const { getPdfJs, getPdfJsConfig } = await import("./getPdfJs");
     const pdfjsLib = await getPdfJs();
 
-    const doc = await pdfjsLib.getDocument({ data: new Uint8Array(buffer) }).promise;
+    const doc = await pdfjsLib.getDocument(getPdfJsConfig(buffer)).promise;
     let fullText = "";
 
     for (let i = 1; i <= doc.numPages; i++) {

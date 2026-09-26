@@ -103,13 +103,13 @@ export function FileCard({
           )}
 
           {status === "error" && (
-            <div className="flex flex-col items-end gap-0.5">
+            <div className="flex flex-col items-end gap-1">
               <div className="flex items-center gap-1.5 text-xs text-rose-500 font-semibold">
                 <AlertCircle className="w-4 h-4 shrink-0" />
                 <span>Error en conversión</span>
               </div>
               {error && (
-                <span className="text-[11px] text-rose-500/80 dark:text-rose-400/90 max-w-[200px] sm:max-w-xs text-right truncate" title={error}>
+                <span className="text-[11px] text-rose-600 dark:text-rose-400 max-w-[260px] sm:max-w-md text-right leading-tight break-words" title={error}>
                   {error}
                 </span>
               )}

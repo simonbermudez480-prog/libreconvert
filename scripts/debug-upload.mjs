@@ -14,28 +14,11 @@ async function run() {
   });
 
   const page = await browser.newPage();
+  await page.setViewport({ width: 1440, height: 900 });
 
   // Escuchar todos los errores del navegador
-  page.on('console', async (msg) => {
-    try {
-      const args = await Promise.all(
-        msg.args().map(async (arg) => {
-          try {
-            return await arg.executionContext().evaluate((val) => {
-              if (val instanceof Error) {
-                return `${val.name}: ${val.message}\n${val.stack}`;
-              }
-              return val;
-            }, arg);
-          } catch (e) {
-            return arg.toString();
-          }
-        })
-      );
-      console.log(`[BROWSER CONSOLE ${msg.type().toUpperCase()}]:`, ...args);
-    } catch (e) {
-      console.log(`[BROWSER CONSOLE ${msg.type().toUpperCase()}]:`, msg.text());
-    }
+  page.on('console', (msg) => {
+    console.log(`[BROWSER ${msg.type().toUpperCase()}]: ${msg.text()}`);
   });
 
   page.on('pageerror', (err) => {
@@ -44,47 +27,9 @@ async function run() {
 
   await page.goto('http://localhost:3000', { waitUntil: 'networkidle2' });
 
-  // Crear un PDF de prueba mínimo válido
-  const samplePdfPath = path.resolve(process.cwd(), 'sample_test.pdf');
-  const minimalPdf = `%PDF-1.4
-1 0 obj
-<< /Type /Catalog /Pages 2 0 R >>
-endobj
-2 0 obj
-<< /Type /Pages /Kids [3 0 R] /Count 1 >>
-endobj
-3 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources << /Font << /F1 5 0 R >> >> >>
-endobj
-4 0 obj
-<< /Length 44 >>
-stream
-BT
-/F1 24 Tf
-100 700 Td
-(MANUAL USM PRUEBA DE CONVERSION) Tj
-ET
-endstream
-endobj
-5 0 obj
-<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
-endobj
-xref
-0 6
-0000000000 65535 f 
-0000000009 00000 n 
-0000000058 00000 n 
-0000000115 00000 n 
-0000000244 00000 n 
-0000000338 00000 n 
-trailer
-<< /Size 6 /Root 1 0 R >>
-startxref
-417
-%%EOF`;
-  fs.writeFileSync(samplePdfPath, minimalPdf);
-
-  console.log('📁 Cargando archivo sample_test.pdf en el Dropzone...');
+  // Usar el archivo real del usuario (¡NUNCA BORRAR!)
+  const samplePdfPath = 'C:\\Users\\simon\\Downloads\\MANUAL USM version junio2023.pdf';
+  console.log('📁 Cargando archivo real del usuario:', samplePdfPath);
   const inputUpload = await page.$('input[type="file"]');
   if (!inputUpload) {
     console.error('No se encontró el input file');
@@ -93,7 +38,7 @@ startxref
   }
 
   await inputUpload.uploadFile(samplePdfPath);
-  await new Promise((r) => setTimeout(r, 1000));
+  await new Promise((r) => setTimeout(r, 1500));
 
   // Buscar el botón de convertir
   console.log('🔘 Haciendo clic en "Convertir archivo ahora"...');
@@ -109,37 +54,57 @@ startxref
     }
   }
 
-  if (!clicked) {
-    console.log('Buscando cualquier botón de conversión...');
-    for (const btn of buttons) {
-      const text = await page.evaluate((el) => el.textContent, btn);
-      if (text && text.includes('Convertir')) {
-        await btn.click();
-        clicked = true;
-        break;
+  // Polling hasta 40 segundos para ver si termina o da error
+  console.log('⏳ Esperando resultado de conversión (hasta 40 segundos)...');
+  let finished = false;
+  let statusInfo = null;
+
+  for (let i = 0; i < 40; i++) {
+    await new Promise((r) => setTimeout(r, 1000));
+    statusInfo = await page.evaluate(() => {
+      // Buscar badges en las tarjetas de archivo
+      const badges = Array.from(document.querySelectorAll('span')).map(s => s.textContent?.trim() || '');
+      const hasErrorBadge = badges.some(t => t.includes('Error') || t.includes('Fallo'));
+      const hasCompletedBadge = badges.some(t => t.includes('Completado') || t.includes('Descargar'));
+      
+      const errorDiv = document.querySelector('p.text-xs.text-rose-500, p.text-rose-500, div[class*="text-rose"]');
+      const errorMsg = errorDiv ? errorDiv.textContent : null;
+
+      const progressEl = document.querySelector('[role="progressbar"], div[class*="bg-indigo-600"]');
+      const progressText = progressEl ? progressEl.getAttribute('style') : null;
+
+      return { hasErrorBadge, hasCompletedBadge, errorMsg, progressText, badges: badges.filter(b => b.length > 0 && b.length < 30) };
+    });
+
+    if (statusInfo.hasErrorBadge || statusInfo.hasCompletedBadge) {
+      console.log(`  -> Estado final detectado a los ${i + 1}s:`, statusInfo);
+      finished = true;
+      break;
+    } else {
+      if ((i + 1) % 5 === 0) {
+        console.log(`  ... procesando (${i + 1}s)...`, statusInfo);
       }
     }
   }
 
-  // Esperar a que ocurra el proceso o error
-  console.log('⏳ Esperando resultado de conversión (5 segundos)...');
-  await new Promise((r) => setTimeout(r, 5000));
+  if (!finished) {
+    console.log('  -> Tiempo de espera agotado.');
+  }
 
-  // Verificar el estado del archivo en pantalla
-  const statusInfo = await page.evaluate(() => {
-    const errorText = document.querySelector('.text-rose-500')?.textContent || null;
-    const titleError = document.querySelector('[title]')?.getAttribute('title') || null;
-    const completed = document.querySelector('.text-emerald-600')?.textContent || null;
-    return { errorText, titleError, completed, html: document.body.innerHTML.substring(0, 500) };
-  });
+  const screenshotsDir = path.resolve('screenshots');
+  if (!fs.existsSync(screenshotsDir)) {
+    fs.mkdirSync(screenshotsDir, { recursive: true });
+  }
+  const screenshotPath = path.join(screenshotsDir, 'debug-real-file-result.png');
+  await page.screenshot({ path: screenshotPath, fullPage: true });
+  console.log(`📸 Captura guardada en: ${screenshotPath}`);
 
-  console.log('📊 Estado de la UI tras intentar convertir:');
-  console.log('  Error visible:', statusInfo.errorText);
-  console.log('  Title error (tooltip):', statusInfo.titleError);
-  console.log('  Éxito visible:', statusInfo.completed);
+  console.log('📊 Estado final de la UI:');
+  console.log('  Error visible:', statusInfo?.errorText);
+  console.log('  Title error (tooltip):', statusInfo?.titleError);
+  console.log('  Éxito visible:', statusInfo?.completed);
 
   await browser.close();
-  try { fs.unlinkSync(samplePdfPath); } catch (e) {}
 }
 
 run().catch(console.error);

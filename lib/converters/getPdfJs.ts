@@ -44,3 +44,18 @@ export async function getPdfJs(): Promise<any> {
   win.pdfjsLib.GlobalWorkerOptions.workerSrc = "/vendor/pdfjs/pdf.worker.min.js";
   return win.pdfjsLib;
 }
+
+/**
+ * Parámetros estandarizados y robustos para cargar cualquier PDF
+ * Incluye soporte completo para CMaps y fuentes estándar locales.
+ */
+export function getPdfJsConfig(fileBuffer: ArrayBuffer) {
+  return {
+    data: new Uint8Array(fileBuffer),
+    cMapUrl: "/vendor/pdfjs/cmaps/",
+    cMapPacked: true,
+    standardFontDataUrl: "/vendor/pdfjs/standard_fonts/",
+    useSystemFonts: true,
+    isEvalSupported: false,
+  };
+}

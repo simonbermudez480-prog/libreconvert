@@ -6,7 +6,7 @@ interface JsonLdProps {
 }
 
 export function JsonLd({ meta }: JsonLdProps) {
-  const pageUrl = `https://libreconvert.com/convertir/${meta.slug}`;
+  const pageUrl = `https://libreconvert.vercel.app/convertir/${meta.slug}`;
 
   // 1. SoftwareApplication Schema
   const softwareAppSchema = {
@@ -22,13 +22,6 @@ export function JsonLd({ meta }: JsonLdProps) {
       price: "0",
       priceCurrency: "USD",
       availability: "https://schema.org/InStock",
-    },
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: "4.9",
-      ratingCount: "1450",
-      bestRating: "5",
-      worstRating: "1",
     },
     featureList: meta.features.map((f) => f.title).join(", "),
   };
@@ -78,13 +71,13 @@ export function JsonLd({ meta }: JsonLdProps) {
         "@type": "ListItem",
         position: 1,
         name: "Inicio",
-        item: "https://libreconvert.com",
+        item: "https://libreconvert.vercel.app",
       },
       {
         "@type": "ListItem",
         position: 2,
         name: "Convertir",
-        item: "https://libreconvert.com/#herramientas",
+        item: "https://libreconvert.vercel.app/#conversor",
       },
       {
         "@type": "ListItem",

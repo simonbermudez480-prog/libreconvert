@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const meta = CONVERSION_MATRIX[params.slug];
   if (!meta) return {};
 
-  const canonicalUrl = `https://libreconvert.com/convertir/${meta.slug}`;
+  const canonicalUrl = `https://libreconvert.vercel.app/convertir/${meta.slug}`;
 
   return {
     title: meta.title,
@@ -44,21 +44,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     alternates: {
       canonical: canonicalUrl,
       languages: {
-        "es-ES": canonicalUrl,
-        "es-MX": canonicalUrl,
-        "es-CO": canonicalUrl,
-        "es-AR": canonicalUrl,
-        "es-CL": canonicalUrl,
-        "es-PE": canonicalUrl,
-        "en-US": canonicalUrl,
-        "en-GB": canonicalUrl,
-        "en-CA": canonicalUrl,
-        "en-AU": canonicalUrl,
-        "pt-BR": canonicalUrl,
-        "pt-PT": canonicalUrl,
-        "fr-FR": canonicalUrl,
-        "de-DE": canonicalUrl,
-        "it-IT": canonicalUrl,
+        es: canonicalUrl,
         "x-default": canonicalUrl,
       },
     },
@@ -71,7 +57,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       type: "website",
       images: [
         {
-          url: "https://libreconvert.com/og-image.png",
+          url: "https://libreconvert.vercel.app/og-image.png",
           width: 1200,
           height: 630,
           alt: meta.title,
@@ -82,7 +68,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       card: "summary_large_image",
       title: meta.title,
       description: meta.metaDescription,
-      images: ["https://libreconvert.com/og-image.png"],
+      images: ["https://libreconvert.vercel.app/og-image.png"],
     },
     robots: {
       index: true,

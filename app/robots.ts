@@ -37,7 +37,7 @@ export default function robots(): MetadataRoute.Robots {
         allow: "/",
       },
     ],
-    sitemap: "https://libreconvert.com/sitemap.xml",
-    host: "https://libreconvert.com",
+    sitemap: "https://libreconvert.vercel.app/sitemap.xml",
+    host: "https://libreconvert.vercel.app",
   };
 }

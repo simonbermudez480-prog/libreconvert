@@ -1,72 +1,71 @@
 import React from "react";
 
 export function HomeJsonLd() {
-  const websiteSchema = {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    name: "LibreConvert",
-    url: "https://libreconvert.com",
-    description:
-      "Conversor universal libre, rápido y privado de documentos (Word, PDF, Excel, Imágenes). Procesamiento 100% en tu navegador con WebAssembly.",
-    inLanguage: "es-ES",
-  };
-
-  const organizationSchema = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    name: "LibreConvert",
-    url: "https://libreconvert.com",
-    logo: "https://libreconvert.com/icon.svg",
-    description:
-      "Plataforma libre y gratuita para la conversión ética y privada de documentos sin intermediarios en la nube.",
-    sameAs: [],
-  };
-
   const softwareAppSchema = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
     name: "LibreConvert — Suite Gratuita de Conversión y Utilidades PDF",
     applicationCategory: "UtilitiesApplication",
     operatingSystem: "Windows, macOS, Linux, iOS, Android (Web Browser)",
-    url: "https://libreconvert.com",
+    url: "https://libreconvert.vercel.app",
     offers: {
       "@type": "Offer",
       price: "0",
       priceCurrency: "USD",
       availability: "https://schema.org/InStock",
     },
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: "4.95",
-      ratingCount: "3120",
-      bestRating: "5",
-      worstRating: "1",
-    },
     featureList: [
-      "Convertir Word (.docx) a PDF estándar",
-      "Convertir PDF a Word editable",
-      "Extraer páginas de PDF a imágenes JPG y PNG en alta resolución",
-      "Unir fotos e imágenes en un único PDF",
-      "Extraer tablas desde PDF a Excel (.xlsx)",
-      "Unir, dividir y comprimir archivos PDF localmente",
-      "Procesamiento 100% en la memoria del navegador (Zero Data Upload)",
-      "Totalmente gratuito sin suscripciones ni límites diarios",
+      "Conversión 100% Client-Side en el navegador",
+      "Cero subida de datos a servidores externos",
+      "Sin límites diarios de conversión",
+      "Sin necesidad de registro o cuenta",
+      "Soporte Word a PDF, PDF a Word, Imágenes y Excel",
+      "Herramientas de Unir, Dividir y Comprimir PDF",
+      "Procesamiento local seguro y privado",
     ].join(", "),
+  };
+
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "@id": "https://libreconvert.vercel.app/#faq",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: "¿LibreConvert es realmente 100% gratis y sin límites?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Sí. En LibreConvert todos los algoritmos se ejecutan localmente en la CPU/GPU de tu propio dispositivo mediante WebAssembly y JavaScript moderno. Al no consumir ancho de banda ni servidores en la nube para procesar tus documentos, no existen costos ocultos, muros de pago ni límites de uso.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "¿Mis archivos se suben a algún servidor o empresa externa?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Jamás. Tus documentos, fotos y hojas de cálculo son leídos y transformados directamente dentro de la memoria de tu navegador. Ningún dato sale de tu ordenador ni viaja a través de internet.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "¿Qué formatos puedo convertir?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Puedes convertir libremente entre PDF, Word (.docx), Imágenes (JPG, PNG, WebP), Hojas de cálculo (.xlsx, .csv), Texto (.txt) y HTML, además de unir, dividir y comprimir PDFs.",
+        },
+      },
+    ],
   };
 
   return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
-      />
-      <script
-        type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareAppSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
     </>
   );

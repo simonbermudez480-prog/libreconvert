@@ -13,7 +13,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://libreconvert.com"),
+  metadataBase: new URL("https://libreconvert.vercel.app"),
   title: "LibreConvert — Convertir PDF a Word, Word a PDF y más | 100% Gratis y Privado",
   description:
     "Convierte gratis archivos entre Word (.docx), PDF, imágenes y hojas de cálculo directamente en tu navegador. Sin registros, sin límites y con privacidad absoluta: tus archivos nunca salen de tu ordenador.",
@@ -28,14 +28,11 @@ export const metadata: Metadata = {
     "convertir docx a pdf online",
     "convertidor sin limite",
     "convertir pdf privado",
-    "convert pdf to word free",
-    "word to pdf free converter",
-    "pdf to image converter online",
-    "converter pdf em word gratis",
-    "convertir pdf en word gratuit",
-    "pdf in word umwandeln kostenlos",
+    "convertidor seguro sin subir archivos",
+    "word a pdf confidencial",
+    "convertir archivos sin servidor",
   ],
-  authors: [{ name: "LibreConvert Team", url: "https://libreconvert.com" }],
+  authors: [{ name: "LibreConvert Team", url: "https://libreconvert.vercel.app" }],
   creator: "LibreConvert",
   publisher: "LibreConvert",
   applicationName: "LibreConvert",
@@ -51,24 +48,10 @@ export const metadata: Metadata = {
     ],
   },
   alternates: {
-    canonical: "https://libreconvert.com",
+    canonical: "https://libreconvert.vercel.app",
     languages: {
-      "es-ES": "https://libreconvert.com",
-      "es-MX": "https://libreconvert.com",
-      "es-CO": "https://libreconvert.com",
-      "es-AR": "https://libreconvert.com",
-      "es-CL": "https://libreconvert.com",
-      "es-PE": "https://libreconvert.com",
-      "en-US": "https://libreconvert.com",
-      "en-GB": "https://libreconvert.com",
-      "en-CA": "https://libreconvert.com",
-      "en-AU": "https://libreconvert.com",
-      "pt-BR": "https://libreconvert.com",
-      "pt-PT": "https://libreconvert.com",
-      "fr-FR": "https://libreconvert.com",
-      "de-DE": "https://libreconvert.com",
-      "it-IT": "https://libreconvert.com",
-      "x-default": "https://libreconvert.com",
+      es: "https://libreconvert.vercel.app",
+      "x-default": "https://libreconvert.vercel.app",
     },
   },
   openGraph: {
@@ -78,10 +61,10 @@ export const metadata: Metadata = {
     type: "website",
     locale: "es_ES",
     siteName: "LibreConvert",
-    url: "https://libreconvert.com",
+    url: "https://libreconvert.vercel.app",
     images: [
       {
-        url: "https://libreconvert.com/og-image.png",
+        url: "https://libreconvert.vercel.app/og-image.png",
         width: 1200,
         height: 630,
         alt: "LibreConvert — Convertidor de Archivos 100% Gratis y Privado",
@@ -93,7 +76,7 @@ export const metadata: Metadata = {
     title: "LibreConvert — Convertir PDF a Word y viceversa gratis",
     description:
       "100% gratis, sin límites y privado en tu navegador. Tus archivos jamás se suben a ningún servidor.",
-    images: ["https://libreconvert.com/og-image.png"],
+    images: ["https://libreconvert.vercel.app/og-image.png"],
   },
   robots: {
     index: true,
@@ -129,84 +112,24 @@ export default function RootLayout({
     "@graph": [
       {
         "@type": "WebSite",
-        "@id": "https://libreconvert.com/#website",
-        "url": "https://libreconvert.com",
+        "@id": "https://libreconvert.vercel.app/#website",
+        "url": "https://libreconvert.vercel.app",
         "name": "LibreConvert",
         "description": "Conversor universal libre de documentos con privacidad total en el cliente.",
-        "inLanguage": ["es", "en", "pt", "fr", "de", "it"],
+        "inLanguage": "es",
         "potentialAction": {
           "@type": "SearchAction",
-          "target": "https://libreconvert.com/convertir/{search_term_string}",
+          "target": "https://libreconvert.vercel.app/convertir/{search_term_string}",
           "query-input": "required name=search_term_string",
         },
       },
       {
         "@type": "Organization",
-        "@id": "https://libreconvert.com/#organization",
+        "@id": "https://libreconvert.vercel.app/#organization",
         "name": "LibreConvert",
-        "url": "https://libreconvert.com",
-        "logo": "https://libreconvert.com/icon-512.png",
+        "url": "https://libreconvert.vercel.app",
+        "logo": "https://libreconvert.vercel.app/icon.svg",
         "sameAs": ["https://twitter.com/libreconvert", "https://github.com/libreconvert"],
-      },
-      {
-        "@type": "WebApplication",
-        "@id": "https://libreconvert.com/#webapp",
-        "name": "LibreConvert Online Converter",
-        "url": "https://libreconvert.com",
-        "applicationCategory": "UtilitiesApplication",
-        "operatingSystem": "All (Windows, macOS, Linux, iOS, Android)",
-        "browserRequirements": "Requires JavaScript and WebAssembly support",
-        "offers": {
-          "@type": "Offer",
-          "price": "0",
-          "priceCurrency": "USD",
-          "availability": "https://schema.org/InStock",
-        },
-        "aggregateRating": {
-          "@type": "AggregateRating",
-          "ratingValue": "4.9",
-          "ratingCount": "14820",
-          "bestRating": "5",
-          "worstRating": "1",
-        },
-        "featureList": [
-          "Conversión 100% Client-Side en el navegador",
-          "Cero subida de datos a servidores externos",
-          "Sin límites diarios de conversión",
-          "Sin necesidad de registro o cuenta",
-          "Soporte Word a PDF, PDF a Word, Imágenes y Excel",
-          "Herramientas de Unir, Dividir y Comprimir PDF",
-        ],
-      },
-      {
-        "@type": "FAQPage",
-        "@id": "https://libreconvert.com/#faq",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": "¿LibreConvert es realmente 100% gratis y sin límites?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Sí. En LibreConvert todos los algoritmos se ejecutan localmente en la CPU/GPU de tu propio dispositivo mediante WebAssembly y JavaScript moderno. Al no consumir ancho de banda ni servidores en la nube para procesar tus documentos, no existen costos ocultos, muros de pago ni límites de uso.",
-            },
-          },
-          {
-            "@type": "Question",
-            "name": "¿Mis archivos se suben a algún servidor o empresa externa?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Jamás. Tus documentos, fotos y hojas de cálculo son leídos y transformados directamente dentro de la memoria de tu navegador. Ningún dato sale de tu ordenador ni viaja a través de internet.",
-            },
-          },
-          {
-            "@type": "Question",
-            "name": "¿Qué formatos puedo convertir?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Puedes convertir libremente entre PDF, Word (.docx), Imágenes (JPG, PNG, WebP), Hojas de cálculo (.xlsx, .csv), Texto (.txt) y HTML, además de unir, dividir y comprimir PDFs.",
-            },
-          },
-        ],
       },
     ],
   };

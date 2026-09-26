@@ -2,34 +2,16 @@ import { MetadataRoute } from "next";
 import { ALL_SLUGS } from "@/lib/seo/matrix";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://libreconvert.com";
+  const baseUrl = "https://libreconvert.vercel.app";
   const now = new Date();
 
-  const globalLocales = [
-    "es-ES",
-    "es-MX",
-    "es-AR",
-    "es-CO",
-    "es-CL",
-    "es-PE",
-    "en-US",
-    "en-GB",
-    "en-CA",
-    "en-AU",
-    "pt-BR",
-    "pt-PT",
-    "fr-FR",
-    "de-DE",
-    "it-IT",
-    "x-default",
-  ];
-
   function buildLanguageAlternates(pathUrl: string) {
-    const languages: Record<string, string> = {};
-    for (const locale of globalLocales) {
-      languages[locale] = pathUrl;
-    }
-    return { languages };
+    return {
+      languages: {
+        es: pathUrl,
+        "x-default": pathUrl,
+      },
+    };
   }
 
   // 1. Root Homepage
